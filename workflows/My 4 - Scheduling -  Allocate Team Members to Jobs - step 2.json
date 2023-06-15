@@ -1,0 +1,185 @@
+{
+  "active": false,
+  "connections": {
+    "getItem": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "getItem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-05T22:18:40.106Z",
+  "id": "33",
+  "name": "My 4 - Scheduling -  Allocate Team Members to Jobs - step 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "22d8adf9-a95f-432e-8ea9-5e13cab932f7",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "10d1d0a4-f2ec-47c4-9035-c5930c185cd6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        320
+      ],
+      "webhookId": "22d8adf9-a95f-432e-8ea9-5e13cab932f7"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"challenge\":\"{{ $json.body.challenge }}\"}",
+        "options": {}
+      },
+      "id": "2f12d5bd-9b55-4f9b-9b19-1a2421daabed",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\nlet pulse, links={}, jobStatusIndex;\n\nasync function init() {\n\n  let pulseId = 4593382215; //parseInt( $('Webhook').first().json.body.event.pulseId );\n\n  pulse =await getPulse(pulseId);\n  \n  let boardDetails = await getBoard(pulse.board.id);\n  \n  await updateJobStage(pulse);\n  \n //let jobStatusColumnId=\"dup__of_status\";\n \n  //await updateStatusColumn(pulse,\"dup__of_status\",0);\n  //await test();\n  \n}\n \n\nawait init();\nreturn [{boardDetails,pulse_id:pulse.id,board_id:pulse.board.id,jobStatusIndex:jobStatusIndex,columnId:\"dup__of_status\" ,pulse}]\n\n\n\n\n\n//////////////////////////////////////////////////////////////////////////\nfunction getPulse(pulseId) {\n  \n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n    let pulse ={pulseId}\n    \n    let query = `{items (ids: ${parseInt(pulseId)}) { id name created_at updated_at state board { id } creator_id group { id title deleted archived } column_values { id value additional_info text title } assets { id name public_url url file_extension } parent_item { id name created_at updated_at state board { id } creator_id group { id } column_values { id value additional_info text title } } subitems { id name created_at updated_at state board { id } creator_id group { id } column_values { id value additional_info text title } } }}\n`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query:query}),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body).data.items[0];\n        //console.log(JSON.stringify(res, null, 2));\n\n    \n        //console.log(updates);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n      \n    }); // promise end\n  \n\n}// function end\n\n///////////////////////////////////////////////////////////////////////\nfunction getBoard(bid){\n  return new Promise((resolve,reject) =>{\n        const request = require(\"request\");\n    \n    let query = `{\n    \"query\": \"{boards (ids: ${bid}) { id name description state owner {id} board_folder_id board_kind pos columns { id type title settings_str } tags { id name } } }\"\n}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify(query),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body).data.items[0];\n        //console.log(JSON.stringify(res, null, 2));\n\n    \n        console.log(res);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n  });\n}\n//////////////////////////////////////////////////////////////////////////\nfunction updateJobStage(pulse) {\n   return new Promise((resolve, reject) => {\n     \nconsole.log(\"inside updateJobStatus....\")\nconsole.log(pulse);\n\n    /*\"0\":\"Henley Stage 1\",\n\"1\":\"Commercial - Stage xxx\",\n\"3\":\"Henley Stage 2\"*/\n    \nlet cols = pulse.column_values;\n\n//link to 3. Stage 1 Booked- 0\":\"Henley Stage 1\"\nlet l3=cols.find(itemm => itemm.id === \"board_relation\" );\nconst l3s1 = l3 ? l3.text: null;\nif(l3s1){\n  jobStatusIndex=0; resolve();\n}\n\n//link to 6. Stage 2 Booked - \"3\":\"Henley Stage 2\"\nlet l6=cols.find(itemm => itemm.id === \"connect_boards6\" );\nconst l6s2 = l6 ? l6.text: null;\nif(l6s2){\n  jobStatusIndex=3; resolve();\n}\n     \nconsole.log({l3s1, l6s2});\n     \n     links.l3s1=l3s1;\n     links.l6s2=l6s2;\n     console.log(\"updateJobStatus resolved\")\n     resolve();\nconsole.log(\"updateJobStatus resolved\")\n        }); // promise end\n}\n///////////////////////////////////////////////////////////////////////\nfunction updateStatusColumn(pulse,colId,index){\nconsole.log(\"update status column....\")\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n  \n let query =\"mutation { change_multiple_column_values (board_id: 4324047040, item_id: 4593382215, column_values: \\\"{ \\\\\\\"dup__of_status\\\\\\\": {\\\\\\\"index\\\\\\\":0} }\\\", create_labels_if_missing: false) { id } }\";\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query : query}),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body).data.items[0];\n        console.log(JSON.stringify(res, null, 2));\n    \n        //console.log(updates);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n      \n    }); // promise end\n  \n}\n\n///////////////////////////////////////////////////////////////////////\n\nfunction test(){\n  console.log(\"inside test..\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n    \nlet bid =parseInt(4324047040);\n  let id=parseInt(4593382215);\nlet column=\"dup__of_status\";\n    let colValue = 0;\n    let cm=\"{\\\"dup__of_status\\\" : {\\\"index\\\" : 0}}\";\n\nvar q =\"`mutation{ change_multiple_column_values(item_id:${id}, board_id:${bid}, column_values:${cm} ) { id }}`\";\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({\"query\":q}),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        console.log(body.data);\n        //res = JSON.parse(body).data.items[0];\n        //console.log(JSON.stringify(res, null, 2));\n\n    \n        //console.log(updates);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n      \n    }); // promise end\n\n  \n}\n\n\n\n\n\n"
+      },
+      "id": "ca2c1d38-d3bb-4718-9c32-e5ad1a63fd6e",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        320
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "=4593382215"
+      },
+      "id": "5db9d71e-0b05-4b53-b08b-48b09b36ba8a",
+      "name": "getItem",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        320
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\nlet pulse ;\n\nasync function init() {\n\n  let pulseId = 4593382215; //parseInt( $('Webhook').first().json.body.event.pulseId );\n\n   await getPluse(pulseId)\n\n\n\n  \n}\n\n\n\nawait init();\nreturn [{pulse}]\n\n\n\n\n\n//////////////////////////////////////////////////////////////////////////\nfunction getPluse(pulseId) {\n  return new Promise((resolve, reject) => {\n    pulse ={pulseId}\n       resolve();\n    }); // promise end\n  \n\n}// function end\n\n///////////////////////////////////////////////////////////////////////\n\n//////////////////////////////////////////////////////////////////////////\nfunction updateJobStage(pulseId) {\n    \n//let cols = $(\"getItem\").first().json.column_values;\n\n//link to 3. Stage 1 Booked\nlet l3=cols.find(itemm => itemm.id === \"board_relation\" );\nconst l3s1 = l3 ? l3.text : null;\n\n//link to 6. Stage 2 Booked\nlet l6=cols.find(itemm => itemm.id === \"connect_boards6\" );\nconst l6s2 = l6 ? l6.text : null;\n\n\n // await updateJobStage(4593382215);\n}\n\n///////////////////////////////////////////////////////////////////////\nfunction getUpdates(pulse,result) {\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `query {   items (ids:[${pulse}]  ) {     updates {       text_body   id  }   } }`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body);\n        //console.log(JSON.stringify(res, null, 2));\n\n        let updates = res.data.items[0].updates;\n        if(result==\"s\"){ sourceUpdates = updates; }\n         if(result==\"t\"){ targetUpdates = updates; }\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n/////////////////////////////////////////////////////////////\n\nfunction delUpdates(id) {\n   console.log(\"delUpdates called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `mutation { delete_update (id: ${id}) { id }}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n////////////////////////////////////"
+      },
+      "id": "8d2761b8-4bb1-47eb-b983-e6197536fb49",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "={{ parseInt ($json[\"board_id\"]) }}",
+        "itemId": "={{ parseInt( $json[\"pulse_id\"] ) }}",
+        "columnId": "={{ $json.columnId }}",
+        "value": "={\"index\":{{ $json[\"jobStatusIndex\"]}}}"
+      },
+      "id": "3e2931e9-ac7d-423c-9c9d-ed7d4ef3a427",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        400,
+        180
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.jobStatusIndex }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "7609ad44-39ea-4221-8c09-2ae43453ef34",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        200,
+        320
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-14T13:10:41.000Z",
+  "versionId": "2d1cca95-c71c-416d-8fb2-57b959b2b124"
+}
