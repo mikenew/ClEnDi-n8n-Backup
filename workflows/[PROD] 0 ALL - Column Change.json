@@ -1,0 +1,1131 @@
+{
+  "active": true,
+  "connections": {
+    "JSON Text": {
+      "main": [
+        [
+          {
+            "node": "Update TEXT in B#All_Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all B#ALL_JOBS Columns": {
+      "main": [
+        [
+          {
+            "node": "Get B#All_Jobs Column ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Status": {
+      "main": [
+        [
+          {
+            "node": "Update STATUS in B#All_Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update STATUS in B#All_Jobs": {
+      "main": [
+        [
+          {
+            "node": "WORKING",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get B#All_Jobs Column ID": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch on Column Type": {
+      "main": [
+        [
+          {
+            "node": "JSON Date",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "JSON Dependencies",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "JSON Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update TEXT in B#All_Jobs": {
+      "main": [
+        [
+          {
+            "node": "WORKING1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Date": {
+      "main": [
+        [
+          {
+            "node": "Update DATE  in B#All_Jobs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update DATE  in B#All_Jobs1": {
+      "main": [
+        [
+          {
+            "node": "WORKING2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "JSON Status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "JSON Number",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ERROR1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Name Change or Column Change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Dependencies": {
+      "main": [
+        [
+          {
+            "node": "Update RELATION in B#All_Jobs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update RELATION in B#All_Jobs1": {
+      "main": [
+        [
+          {
+            "node": "WORKING3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Number": {
+      "main": [
+        [
+          {
+            "node": "Update NUMBER in B#All_Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update NUMBER in B#All_Jobs": {
+      "main": [
+        [
+          {
+            "node": "WORKING4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "JSON Timerange S1 Window",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Name Change or Column Change1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Timerange S1 Window": {
+      "main": [
+        [
+          {
+            "node": "Update S1 WINDOW in B#All_Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update S1 WINDOW in B#All_Jobs": {
+      "main": [
+        [
+          {
+            "node": "WORKING5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Name Change or Column Change": {
+      "main": [
+        [
+          {
+            "node": "NAME Get B#ALL_JOBS Item Master Record1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "COLUMN Get B#ALL_JOBS Item Master Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "COLUMN Get B#ALL_JOBS Item Master Record": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "NAME Get B#ALL_JOBS Item Master Record1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Get all B#ALL_JOBS Columns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Text1": {
+      "main": [
+        [
+          {
+            "node": "Update TEXT in B#All_Jobs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update TEXT in B#All_Jobs1": {
+      "main": [
+        [
+          {
+            "node": "WORKING6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Name Change or Column Change1": {
+      "main": [
+        [
+          {
+            "node": "Switch on Column Type",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "JSON Text1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-01-30T05:53:59.953Z",
+  "id": "7",
+  "name": "[PROD] 0 ALL - Column Change",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a47e4f81-80b5-49da-811c-3204d20ad6b5",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "c8241a7b-f94b-4635-b6a0-086d3d161254",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json[\"body\"][\"event\"][\"boardId\"] }}",
+              "operation": "notEqual",
+              "value2": "3595633575"
+            }
+          ]
+        }
+      },
+      "id": "50f6c7d4-2fa8-49f6-a93f-bc8af29bce6f",
+      "name": "IF Board 1. Jobs Received",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        900,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"date\"]\n\n\n/*\n      myColumnValues: \"{\\\"date5\\\" : {\\\"date\\\" : \\\"1993-08-27\\\", \\\"time\\\": \\\"18:00:00\\\"} }\n*/\n\n }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c60a1cf9-68cd-4da2-9d6e-f2ce3130ea66",
+      "name": "JSON Date",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "=JSON_Dependancy",
+              "value": "={{ \n  JSON.stringify(\n         {\n            \"Supervisor\"\n            : \n            { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n          }\n                 )\n\n\n\n\n/*\n  JSON.stringify(\n                  { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n                 )\n\n\n                  $json[\"all_jobs_column_changed_id\"]\n                  :\n\n\n\n\nmyColumnValues: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166] } }\n\n \"COLUMN_ID\"  : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][17][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n\nAPI REFERENCE\nchange_multiple_column_values (item_id:1587277166, board_id:1587277136, column_values: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166]} }\")\n}\n*/\n\n\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d2454a87-5853-4ce7-95b6-2fc54a3a8563",
+      "name": "JSON Board-Relation",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        3580,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"].value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0bd2b9d6-ec7c-4b79-a6d9-1f396490eaca",
+      "name": "JSON Text",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{  \n\n$json[\"all_jobs_column_changed_id\"]\n\n}}",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"label\"][\"text\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e68c5dd-7dab-4a47-8b7a-ccf396fe64ce",
+      "name": "JSON Status",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardColumn",
+        "operation": "getAll",
+        "boardId": "3729016273"
+      },
+      "id": "3f737b02-93cd-4972-9a27-9b384ac73dab",
+      "name": "Get all B#ALL_JOBS Columns",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        320
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n}}  "
+      },
+      "id": "606a2e08-5e80-4b96-90f1-ab0cdbcf7d51",
+      "name": "Update STATUS in B#All_Jobs",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        620
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n}}  "
+      },
+      "id": "2eccf786-27aa-4d18-aeee-6ca0b5a290be",
+      "name": "Update TEXT in B#All_Jobs",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        440
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "c36079f3-a4dc-4566-ad26-a4a87c96c862",
+      "name": "WORKING",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3280,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and find the columnn id of the column name\n// Column name of the phase board must be the same as the All Jobs board\n\nfor (const item of $input.all()) {\n  if (item.json.title == $node[\"Webhook\"].json[\"body\"][\"event\"][\"columnTitle\"]  ) {\n    return [{\"all_jobs_column_changed_id\":item.json.id}];\n  } // End if column name\n} // End For each item\n\nreturn [{\"all_jobs_column_changed_id\":\"ERROR - Column name not found in All Jobs Board\"}];"
+      },
+      "id": "d0fdbee3-2fe8-47f9-83b3-67fe9c38426e",
+      "name": "Get B#All_Jobs Column ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "value1": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"columnType\"] }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "equal",
+              "value2": "={{ \"date\" }}"
+            },
+            {
+              "operation": "equal",
+              "value2": "={{ \"board-relation\" }}",
+              "output": 1
+            },
+            {
+              "operation": "equal",
+              "value2": "={{ \"text\" }}",
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "77b621f3-7809-44b7-9fdc-9a5903447932",
+      "name": "Switch on Column Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        320
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7d14ed63-efa1-46c5-98dd-a0c8cb3cf58b",
+      "name": "WORKING1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3260,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] \n}}",
+        "columnValues": "={{ $json[\"json_result\"] }}"
+      },
+      "id": "d70012fe-5649-4709-8461-8f4755da9380",
+      "name": "Update RELATION in B#All_Jobs1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        260
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n\n}}  "
+      },
+      "id": "c9b5d7e9-2220-4573-aa08-c57c9ce5cf88",
+      "name": "Update DATE  in B#All_Jobs1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        80
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
+              "value": "={{ \n  JSON.stringify(\n                  { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n                 )\n\n\n\n\n/*\nmyColumnValues: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166] } }\n\n \"COLUMN_ID\"  : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][17][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n\nAPI REFERENCE\nchange_multiple_column_values (item_id:1587277166, board_id:1587277136, column_values: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166]} }\")\n}\n*/\n\n\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "857f338b-911a-4523-8f62-12ca195d8673",
+      "name": "JSON Board-Relation1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        3620,
+        500
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "9c4a0653-87e2-45f1-b0ef-c6ee8e80879b",
+      "name": "WORKING2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3260,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "=number",
+        "value1": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"columnType\"] }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "={{ \"color\" }}"
+            },
+            {
+              "value2": "={{ \"numeric\" }}",
+              "output": 1
+            },
+            {
+              "output": 2
+            }
+          ]
+        }
+      },
+      "id": "5dff93f5-0785-4d46-b7da-3138b5dee1dc",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        2600,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b87eb2b7-15cc-407e-b1e2-aeeca128f62b",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "60f0b01b-0c98-4ea8-921f-df9acb003acb",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        860,
+        320
+      ],
+      "webhookId": "b87eb2b7-15cc-407e-b1e2-aeeca128f62b"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the value changed\nlet data = $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"];\n\n// If the value changed is empty\n// ie user has deledted the previous value and the field is empty\nif (data === null) {\n  return [{\"ERROR\":\"Empty Object\"}];\n}\n\nlet dependencyList = data.linkedPulseIds.map(u => u.linkedPulseId);\n\nlet json_result = '{\"' +  $node[\"Get B#All_Jobs Column ID\"].json[\"all_jobs_column_changed_id\"];\njson_result += '\": {\"item_ids\":[' + dependencyList.join(\",\");\n\n\njson_result += ']} }';\n\nreturn {json_result};\n\n/*\n\nWORKING EXAMPLE: {  \"board_relation9\":{\"item_ids\":[3841048769]}  }\n\n//$node[\"Get Board #1 Item\"].json[\"column_values\"][38][\"value\"]\n\nreturn {\n  \"list\" : result\n};\n\n*/\n\n\n\n\n\n\n\n\n\n\n\n"
+      },
+      "id": "afdd037b-a19d-46e5-b67f-eaf54117588f",
+      "name": "JSON Dependencies",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "9aef0b5b-ac6f-4708-9087-75ced06add00",
+      "name": "WORKING3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3260,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Column Change",
+        "height": 80
+      },
+      "id": "9be10f90-ff3b-45b1-9d81-71f33438b964",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
+              "value": "={{ \n\n$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"].value\n\n }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ee018d1d-a58e-4b42-ac19-d74f6a639ab0",
+      "name": "JSON Number",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n}}  "
+      },
+      "id": "efa1a3b1-66ad-4af1-8cd0-41d643b5c200",
+      "name": "Update NUMBER in B#All_Jobs",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3060,
+        800
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "b3f53094-a31e-462a-b628-d0118fcdf459",
+      "name": "WORKING4",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3260,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## OUTSTANDING\n**1** "
+      },
+      "id": "b5e688e8-7486-4301-b78f-fc99e4303be4",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $node[\"Webhook\"].json[\"body\"][\"event\"][\"columnType\"] }}",
+              "value2": "={{ \"timerange\" }}"
+            }
+          ]
+        }
+      },
+      "id": "1071e180-0229-44b6-89df-31671b427716",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2060,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
+              "value": "={{ \n\n{  \n   \"from\"  :$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"from\"], \n   \"to\"    :$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"to\"]\n}\n/*\nJSON.stringify(\n{  \n   \"from\"  :$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"from\"], \n   \"to\"    :$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"to\"]\n})\n\n$node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"] is the following\n\n      {\"from\":\"2023-04-10\",\"to\":\"2023-04-13\",\"visualization_type\":null,\"changed_at\":\"2023-02-23T04:38:18.580Z\"}\n*/\n\n }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ba7ec87a-c466-4b14-85dc-1a08eb812c2d",
+      "name": "JSON Timerange S1 Window",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"COLUMN Get B#ALL_JOBS Item Master Record\"].json[\"id\"] }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n}}  "
+      },
+      "id": "fcad2efe-fb46-4ea9-8cc4-db7429a7e57f",
+      "name": "Update S1 WINDOW in B#All_Jobs",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        -240
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Dates\n**Board 1** \nS1 Requested Date\n**Board 3**\nRequested Date\nDate S1 INV sent\n**Board 6**\nDate S2 INV sent\n**Board 7**\neMail Inspector\nCES Huntley\n**Board 8**\nCES date\nInstall date\nCompletion\n",
+        "height": 342.0471537452966
+      },
+      "id": "90cdf392-46be-4fa4-be4a-271f50e260aa",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3460,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Timelines\n**Board 2**  Stage 1 Install Window\n**Board 3**  Stage 1 Install window\n**Board 5**  Stage 2 Install Window\n**Board 6**  Stage 2 Install Window"
+      },
+      "id": "7fce11c4-8a7a-45b9-b86b-6a0e0bc7e787",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        -260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2fe40a6c-ac3a-406d-8d65-8c331ee4d76f",
+      "name": "WORKING5",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.event.type }}",
+              "value2": "update_name"
+            }
+          ]
+        }
+      },
+      "id": "c1492e0b-e21b-4f13-adca-d8a66ef1db08",
+      "name": "Name Change or Column Change",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "=3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $json.body.event.pulseName }}"
+      },
+      "id": "2c17c0f1-ab55-4a05-bd07-fe2f6d15a131",
+      "name": "COLUMN Get B#ALL_JOBS Item Master Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        420
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "=3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $json.body.event.previousValue.name }}"
+      },
+      "id": "bca1a350-db74-4fa9-bd0b-736a6187f3e6",
+      "name": "NAME Get B#ALL_JOBS Item Master Record1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        220
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {},
+      "id": "da0b7924-47b0-4bef-b332-888d00f0cfa6",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        1520,
+        320
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "469f95dd-89c1-4ec3-bb16-ae5d5c39764e",
+      "name": "ERROR1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        1000
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{ $node.Webhook.json.body.event.value.name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2c9ded7e-b3f9-4246-a15c-68196ba6c287",
+      "name": "JSON Text1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2660,
+        1160
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node['NAME Get B#ALL_JOBS Item Master Record1'].json.id }}",
+        "columnValues": "={{ JSON.stringify($input.item.json)\n}}  "
+      },
+      "id": "b10f3adf-2f94-4987-a54b-1435e2cebed6",
+      "name": "Update TEXT in B#All_Jobs1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        1160
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "521b75fd-a04b-4f8b-8b71-3c5f68bc37c2",
+      "name": "WORKING6",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        1160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node.Webhook.json.body.event.type }}",
+              "operation": "notEqual",
+              "value2": "update_name"
+            }
+          ]
+        }
+      },
+      "id": "0140205d-3201-4c38-9a05-80b121bb6c7c",
+      "name": "Name Change or Column Change1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        340
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:39:14.000Z",
+  "versionId": "40c05069-caa1-4d65-b92f-1fbca68c6d47"
+}
