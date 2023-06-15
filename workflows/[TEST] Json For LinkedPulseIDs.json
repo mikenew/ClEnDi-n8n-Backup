@@ -1,0 +1,85 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Get Item Board #2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Item Board #2": {
+      "main": [
+        [
+          {
+            "node": "Optional Extras JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-02-27T07:45:23.927Z",
+  "id": "20",
+  "name": "[TEST] Json For LinkedPulseIDs",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "let data = $node[\"Get Item Board #2\"].json[\"column_values\"][13][\"value\"];\n\nif(data !== undefined && data !== null && data.constructor == String){\n  data = JSON.parse(data);\n}\nlet dependencyList = data.linkedPulseIds.map(u => u.linkedPulseId);\nreturn dependencyList;\nlet json_result = '{\"' +  $node[\"Get B#All_Jobs Column ID\"].json[\"all_jobs_column_changed_id\"];\njson_result += '\": {\"item_ids\":[' + dependencyList.join(\",\");\njson_result += ']} }';\n\nreturn {json_result};"
+      },
+      "id": "b14842c1-7972-4bc3-92fd-9392d24c715a",
+      "name": "Optional Extras JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        920,
+        280
+      ],
+      "notesInFlow": true
+    },
+    {
+      "parameters": {},
+      "id": "14dd4598-5cc2-49fd-ae42-aa14afcf45fc",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        360,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "4024908541"
+      },
+      "id": "00b7701b-ca8c-45d1-912c-4d585e11708f",
+      "name": "Get Item Board #2",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        680,
+        280
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-02-27T10:30:06.000Z",
+  "versionId": "a332dcd6-a8f6-4f9b-a333-ae37a4ec6e26"
+}
