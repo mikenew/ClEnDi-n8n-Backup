@@ -1,0 +1,101 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-05-09T22:50:43.143Z",
+  "id": "30",
+  "name": "[PROD] Duplicate updates from Master record",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Brief ... UPDATE SYNCHRONISATION\n1. Read the updates for a record from the Master Board (RMaster)\n2. Copy all the updates to another record on another Board (RCopy)\n\n\n\n**Inputs**: Both Board ID's and both Record ID's\n**Output**: RCopy now has all RMaster's Updates\n\n\n\n**Trigger**: when we press a button in Monday,\n**n8n Workflow** it will copy all the updates from the RMaster to another RCopy. so RCopy may have no updates, the RMaster may have 23 updates, need to copy all updates from RMaster to RCopy so RCopy ends up with 23 updates",
+        "height": 324.46302589463824,
+        "width": 630.2583085248555
+      },
+      "id": "7008e644-7b41-4fd0-8108-2fda925701d7",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Checking results\nYou can use the API call on the \"Copy to\" record to see if the updates were successful",
+        "height": 90.97535059642556,
+        "width": 625.5716915683658
+      },
+      "id": "26ddcddf-afc6-403c-9c40-223604ecc735",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "17046e5b-65fc-4887-891e-4afddfcb972b",
+        "options": {}
+      },
+      "id": "ea5be615-b556-433a-9175-93f14160318b",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -260
+      ],
+      "webhookId": "17046e5b-65fc-4887-891e-4afddfcb972b"
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\n//let s = $(\"start\").first().json.source_item_id;\n//let t = $(\"start\").first().json.target_item_id;\n\nlet s = parseInt($('Webhook').first().json.query.source_item_id);\nlet t = parseInt($('Webhook').first().json.query.target_item_id);\n\nlet sourceUpdates, targetUpdates;\n\nasync function init() {\n  await getUpdates(s,\"s\");\n  await getUpdates(t,\"t\");\n  \n  \n  targetUpdates.forEach((u) => {\n   delUpdates(u.id);\n});\n\n    sourceUpdates.forEach((u) => {\n   addUpdate(u.text_body,t);\n});\n  \n}\n\nawait init();\n\nreturn sourceUpdates;\n\n//getItemUpdates(4415379740);\n//up.forEach((u)=>{ console.log(u) });\n\n//////////////////////////////////////////////////////////////////////////\nfunction getUpdates(pulse,result) {\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `query {   items (ids:[${pulse}]  ) {     updates {       text_body   id  }   } }`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body);\n        //console.log(JSON.stringify(res, null, 2));\n\n        let updates = res.data.items[0].updates;\n        if(result==\"s\"){ sourceUpdates = updates; }\n         if(result==\"t\"){ targetUpdates = updates; }\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n/////////////////////////////////////////////////////////////\n\nfunction delUpdates(id) {\n   console.log(\"delUpdates called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `mutation { delete_update (id: ${id}) { id }}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n//////////////////////////////////////////////\n\nfunction addUpdate(text,pulse) {\n   console.log(\"addUpdate called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n  let query = `mutation {create_update (item_id: ${pulse}, body: \"${text}\") { id }}`;\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n"
+      },
+      "id": "752b2b23-2891-458e-ac2b-338b184e80e2",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Primary Workflow all in Code\nThere is also a backup that works in workflow 32\nBoth completed by Adbur 29 May 2023",
+        "width": 489.1124312757873
+      },
+      "id": "5c008b38-a133-4de9-9e91-b65fdd855d9e",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -80
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:37:54.000Z",
+  "versionId": "f1d37a46-4112-490d-9fb0-a3a4b2a2616b"
+}
