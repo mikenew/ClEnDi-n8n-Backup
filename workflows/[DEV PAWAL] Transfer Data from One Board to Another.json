@@ -1,0 +1,338 @@
+{
+  "active": false,
+  "connections": {
+    "JSON Master Update": {
+      "main": [
+        [
+          {
+            "node": "Transfer Column Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Source Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Create Item in DES Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Source Board": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Destination Board": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Item in DES Board": {
+      "main": [
+        [
+          {
+            "node": "Get Newly Created Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Newly Created Item": {
+      "main": [
+        [
+          {
+            "node": "JSON Master Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Search Destination Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transfer Column Data": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-05-07T12:13:03.848Z",
+  "id": "28",
+  "name": "[DEV PAWAL] Transfer Data from One Board to Another",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "4428364340",
+        "itemId": "={{ $node[\"Get Newly Created Item\"].json[\"id\"] }}",
+        "columnValues": "={{ $json[\"result\"] }}"
+      },
+      "id": "1d9191e1-cfec-4e0b-841c-52fc9e0e21f7",
+      "name": "Transfer Column Data",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2780,
+        280
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let masterBoardColumns = $(\"Source Board\").first();\nlet targetBoardColumns = $(\"Get Newly Created Item\").first();\n//If you want to ignore some columns you can add them over here. If not required, just use []\n\nconsole.log(masterBoardColumns);\nconsole.log(targetBoardColumns)\nvar ignoreColumnFromMaster = [];\nvar outuputJSON = {};\n\n// For all columns in the Master Board\n// \nmasterBoardColumns.json.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.json.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromMaster.includes(data.title)) {\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet result = JSON.stringify(outuputJSON);\n\nreturn {\n  result\n};\n"
+      },
+      "id": "44c5d665-bc86-4d00-b53e-17fa806c4307",
+      "name": "JSON Master Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        40
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7639f08e-7dc0-4d5d-9b8d-0a7d707521ef",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "sourceBoard"
+            },
+            {
+              "name": "destinationBoard"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1465ff84-5ce0-4860-9557-3ad5b76b0808",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Search Destination Board\"].json[\"name\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "8452f41d-24e8-4f05-a643-3f307dc2eb9d",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getAll",
+        "boardId": "4428364292",
+        "groupId": "topics",
+        "returnAll": true
+      },
+      "id": "4bd63c13-c789-4e7b-b714-d3e0c8db8226",
+      "name": "Source Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        300
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "4428364340",
+        "columnId": "name",
+        "columnValue": "={{ $node[\"Split In Batches\"].json[\"name\"] }}",
+        "limit": 1
+      },
+      "id": "206728b8-432f-4c32-89da-757f1f6fcdaf",
+      "name": "Search Destination Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        60
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4428364340",
+        "groupId": "topics",
+        "name": "={{ $node[\"Source Board\"].json[\"name\"] }}",
+        "additionalFields": {}
+      },
+      "id": "eb18ddca-0903-4bb0-a6dc-db9f33505077",
+      "name": "Create Item in DES Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        40
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "=4431022328"
+      },
+      "id": "a2fa9b68-1423-4db3-a356-0404e89a7d7a",
+      "name": "Get Newly Created Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        260
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "45ed200b-2d6c-4b0c-a215-5b2470fde3bd",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Not Supported Column and Skipped",
+        "width": 745.4088050314466
+      },
+      "id": "f1521456-f72a-45f4-b025-f42ed1d33df7",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        -180
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:33:44.000Z",
+  "versionId": "7fb8fd7b-6635-4fe0-8baa-97f247bf5e89"
+}
