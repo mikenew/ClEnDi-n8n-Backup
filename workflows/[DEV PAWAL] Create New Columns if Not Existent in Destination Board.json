@@ -1,0 +1,283 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Fetch : Destination Board Columns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch : Destination Board Columns": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monday.com": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Monday.com1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-04-26T11:48:06.289Z",
+  "id": "24",
+  "name": "[DEV PAWAL] Create New Columns if Not Existent in Destination Board",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "3aa68ee7-748b-4ad5-8786-62ce95db256e",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        340,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "sourceBoardID"
+            },
+            {
+              "name": "destinationBoardID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "33341390-8d96-4dac-9153-4dfba22e24a7",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        580,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardColumn",
+        "operation": "getAll",
+        "boardId": "={{ $json[\"destinationBoardID\"] }}"
+      },
+      "id": "7e513d08-298d-4494-b80b-579356289a2c",
+      "name": "Fetch : Destination Board Columns",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        800,
+        240
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "aggregateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "title"
+            }
+          ]
+        },
+        "options": {
+          "mergeLists": true
+        }
+      },
+      "id": "ee00b375-3177-4c61-b6be-992ba1a39fbd",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardColumn",
+        "operation": "getAll",
+        "boardId": "={{ $node[\"Set\"].json[\"sourceBoardID\"] }}"
+      },
+      "id": "e1dbd9de-352f-4fd7-9199-48adf1b8329f",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        240
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardColumn",
+        "boardId": "={{ $node[\"Set\"].json[\"destinationBoardID\"] }}",
+        "title": "={{ $json[\"title\"] }}",
+        "columnType": "={{ $json[\"type\"] }}",
+        "additionalFields": {
+          "defaults": ""
+        }
+      },
+      "id": "4dbcd581-274c-4195-8d34-e73a3cdda374",
+      "name": "Monday.com1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        120
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the\n// JSON of the item\n\nlet ABC = $(\"Item Lists\").first();\t\nconsole.log(ABC);\n\n$input.item.json.createNew = !ABC.json.title.includes($input.item.json.title);\n\nreturn $input.item;"
+      },
+      "id": "901bb204-c128-4d2a-bcd8-eee58d5b765a",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json[\"createNew\"] }}",
+              "value2": true
+            }
+          ],
+          "string": [
+            {
+              "value1": "={{ $json[\"type\"] }}",
+              "operation": "notEqual",
+              "value2": "board-relation"
+            }
+          ]
+        }
+      },
+      "id": "1eea1e7f-971e-450c-95e6-b56b342248c6",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "baac7237-a637-4893-a7c5-c473a078cd65",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1860,
+        120
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-06-12T05:32:18.000Z",
+  "versionId": "89b12a92-66ee-4b2c-8c4b-11bbd777aec7"
+}
