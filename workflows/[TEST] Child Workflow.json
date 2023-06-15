@@ -1,0 +1,60 @@
+{
+  "active": false,
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-02-27T07:38:32.313Z",
+  "id": "18",
+  "name": "[TEST] Child Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "08de9444-93e9-48f0-abea-0345edcedec3",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        580,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "hello",
+              "value": "Hello World!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "937c3122-f2f0-4b77-a041-a4d2f4c9fb27",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        800,
+        240
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-02-27T07:40:27.000Z",
+  "versionId": "2bb31f74-ae55-449a-99fd-d5fe7ee15034"
+}
