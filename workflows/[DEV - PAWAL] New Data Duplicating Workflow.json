@@ -1,0 +1,214 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monday.com": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Monday.com1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-05-06T09:50:19.910Z",
+  "id": "26",
+  "name": "[DEV - PAWAL] New Data Duplicating Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4de66155-41e0-4310-822d-58b566ed11c5",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        280,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getAll",
+        "boardId": "3595633575",
+        "groupId": "topics",
+        "returnAll": true
+      },
+      "id": "baedddcc-3fcf-405d-a659-ab8c365438d3",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        520,
+        220
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "2",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return {payload: Object.values($node['HTTP Request'].json)[0]}"
+      },
+      "id": "cadabf2e-1eb4-4d24-baef-093890dd44a3",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "id": "cc5e0ff9-4660-444a-bcab-d11de3bd1bd6",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [
+        820,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "3729016273",
+        "groupId": "topics",
+        "name": "={{ $json.name }}",
+        "additionalFields": {}
+      },
+      "id": "9520b1fb-92fe-4a4f-aca9-5dec30534649",
+      "name": "Monday.com1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        420
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "2",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "=S1 Requested Date",
+              "value": "={{$node[\"Merge\"].json[\"data\"][\"S1 Requested Date\"]}}"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "b2c899ea-1d03-4e85-b9fa-36bfb4eb3394",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        620,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "S1 Requested Date",
+              "value": "={{$node[\"Set\"].json[\"S1 Requested Date\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "34b70e87-8ba3-4372-87e0-616e82209d40",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        840,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Mike's Reviews \n* 8 May - creates all records and doesn't copy the fields across",
+        "height": 193,
+        "width": 478
+      },
+      "id": "e033365a-522d-42f1-b892-8ccea7883367",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        480
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-06-12T05:31:48.000Z",
+  "versionId": "44c36981-0bc0-42b9-92b7-3348d43bb16f"
+}
