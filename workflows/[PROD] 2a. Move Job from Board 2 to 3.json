@@ -1,0 +1,520 @@
+{
+  "active": true,
+  "connections": {
+    "Get Board #2 Item": {
+      "main": [
+        [
+          {
+            "node": "Create Item Board #3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Item Board #3": {
+      "main": [
+        [
+          {
+            "node": "Get Item Board #3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Item Board #3": {
+      "main": [
+        [
+          {
+            "node": "Get Board ALL JOBS Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Board #2 Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transfer Column Data": {
+      "main": [
+        [
+          {
+            "node": "Update Stage to B3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Board ALL JOBS Item": {
+      "main": [
+        [
+          {
+            "node": "JSON Master Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Stage to B3": {
+      "main": [
+        [
+          {
+            "node": "Move to Group 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move to Group 3": {
+      "main": [
+        [
+          {
+            "node": "Get Today's Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today's Date": {
+      "main": [
+        [
+          {
+            "node": "Update Completion Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Completion Date": {
+      "main": [
+        [
+          {
+            "node": "Delete Item Board #2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Master Update": {
+      "main": [
+        [
+          {
+            "node": "Transfer Column Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Item Board #2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-02-20T08:03:17.485Z",
+  "id": "10",
+  "name": "[PROD] 2a. Move Job from Board 2 to 3",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "3aef9079-95f6-42d1-9fe2-9c2a3124e5a1",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3601419425",
+        "itemId": "={{ $node[\"Get Item Board #3\"].json[\"id\"] }}",
+        "columnValues": "={{ $json[\"result\"] }}"
+      },
+      "id": "27741310-7669-4637-86cc-358ccd24d960",
+      "name": "Transfer Column Data",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        300
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "bb94d4a9-0a83-4f9e-a6b5-e2504d9dd816",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "value": "={{ \n   JSON.stringify(\n     {\n       \"text2\"     :$node[\"Get Board #2 Item\"].json[\"column_values\"][1][\"value\"],\n       \"date59\"    :$node[\"Get Board #2 Item\"].json[\"column_values\"][19][\"text\"],\n       \"numeric1\"  :$node[\"Get Board #2 Item\"].json[\"column_values\"][3][\"value\"].replace(/[^0-9]/g, ''),\n       \"board_relation2\" : {\"item_ids\":[JSON.parse($node[\"Get Board #2 Item\"].json[\"column_values\"][4][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n       \"numeric\"   :$node[\"Get Board #2 Item\"].json[\"column_values\"][6][\"value\"].replace(/[^0-9]/g, ''),\n       \"connect_boards\" : {\"item_ids\":[JSON.parse($node[\"Get Board #2 Item\"].json[\"column_values\"][16][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n       \"connect_boards21\" : {\"item_ids\":[JSON.parse($node[\"Get Board #2 Item\"].json[\"column_values\"][13][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n     } )\n\n/*\n    Outstanding: \n         1. The Optional Extras multi Select\n*/\n\n/*\n * List of columns in Board #3 that need to be updated from Board #1\n *\n * B#3 COLUMN NAME              B#3 COLUMN ID            B#2 COLUMN #       B#2 COLUMN\n * Henley PO #                  text2                          1\n * Requested Date               date59                         19\n * Install Windoe\n * # Panels\n * Panel Model\n * Panel Brand\n * Inverter KW\n * Supervisor \n * Optional Extras\n */\n\n}}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "efff0f9c-583a-4730-bb3e-f875975fd996",
+      "name": "Construct JSON Update",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3753873737",
+        "columnId": "item_id",
+        "columnValue": "={{ JSON.stringify($json[\"body\"][\"event\"][\"pulseId\"]) }}"
+      },
+      "id": "b225a9c0-34ae-412d-adb1-b567c9787078",
+      "name": "Get Board #2 Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        300
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "3601419425",
+        "groupId": "topics",
+        "name": "={{ $json[\"name\"] }}",
+        "additionalFields": {}
+      },
+      "id": "236654e7-b182-4e73-ba9f-09f0b0e3fdfa",
+      "name": "Create Item Board #3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        300
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "={{ $json[\"id\"] }}"
+      },
+      "id": "fedec7cd-2650-4da2-ba19-5a3fd3b5b088",
+      "name": "Get Item Board #3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        300
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "delete",
+        "itemId": "={{ $node[\"Get Board #2 Item\"].json[\"id\"] }}"
+      },
+      "id": "636f7d13-8624-4968-b03e-0740904b15f8",
+      "name": "Delete Item Board #2",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8f0069a2-7ef1-4126-8dd3-9f27e56a06f6",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "8a00e65f-f1ec-44a7-a0c3-2949e1bb6788",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        300
+      ],
+      "webhookId": "8f0069a2-7ef1-4126-8dd3-9f27e56a06f6"
+    },
+    {
+      "parameters": {
+        "content": "## Outstanding\n**1** Optional Extras Multi-Select"
+      },
+      "id": "059210eb-1fa9-4311-a06b-181989f108b9",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Move Board 2 to 3",
+        "height": 80
+      },
+      "id": "ca1b6856-3c71-4ede-816d-39503462cebc",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $node[\"Get Item Board #3\"].json[\"name\"] }}"
+      },
+      "id": "d3f9f3c9-ff33-498c-8f90-c6bfb9f74c32",
+      "name": "Get Board ALL JOBS Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        300
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Get Board ALL JOBS Item\"].json[\"id\"] }}",
+        "columnValues": "={{ \n\n JSON.stringify({\"dup__of_load_1drive4\":\"3. Stage 1 Booked\"})\n\n }}"
+      },
+      "id": "d6a74cca-3231-4c56-81b6-a7c2fd106fce",
+      "name": "Update Stage to B3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "move",
+        "boardId": "3729016273",
+        "itemId": "={{ $json[\"id\"] }}",
+        "groupId": "new_group62598"
+      },
+      "id": "9a8a8816-9cba-4bb6-823e-1949fba27e4e",
+      "name": "Move to Group 3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2520,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "var date_today = new Date().toISOString().slice(0, 10);\n\n//items[0].json.date_today = date;\n\nreturn {date_today};"
+      },
+      "id": "4c206193-eade-4cd4-b7b8-ad7e46b965a8",
+      "name": "Get Today's Date",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Move to Group 3\"].json[\"id\"] }}",
+        "columnValues": "={{ \n\n         JSON.stringify({\"date0\":$node[\"Get Today's Date\"].json[\"date_today\"] })\n\n }}"
+      },
+      "id": "ee581a24-5221-4b24-ac11-d0dc8e09af89",
+      "name": "Update Completion Date",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2920,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let data = $node[\"Get Item Board #3\"].json[\"column_values\"][7][\"value\"];\n\nif(data !== undefined && data !== null && data.constructor == String){\n  data = JSON.parse(data);\n}\n//return {data};\nlet dependencyList = data.linkedPulseIds.map(u => u.linkedPulseId);\nreturn dependencyList;\nlet json_result = '{\"' +  $node[\"Get B#All_Jobs Column ID\"].json[\"all_jobs_column_changed_id\"];\njson_result += '\": {\"item_ids\":[' + dependencyList.join(\",\");\njson_result += ']} }';\n\nreturn {json_result};"
+      },
+      "id": "a7d7338b-7e9b-4b47-b36e-0464d0c98555",
+      "name": "Optional Extras JSON1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2680,
+        100
+      ],
+      "notesInFlow": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "//Master Board Column, Get Master Board Item\nvar masterBoardColumns = $node[\"Get Board ALL JOBS Item\"].json;\nvar targetBoardColumns = $node[\"Get Item Board #3\"].json;\n\n//If you want to ignore some columns you can add them over here. If not required, just use []\nvar ignoreColumnFromMaster = [];\nvar outuputJSON = {};\n\n\nmasterBoardColumns.column_values.forEach(function(data) {\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromMaster.includes(data.title)) {\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        if (data.value !== undefined && data.value !== null) {\n          outuputJSON[targetColumnId] = data.value ? (data.value.replace(/[^0-9]/g, '')) : \"\";\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet result = JSON.stringify(outuputJSON);\n\nreturn {\n  result\n};\n"
+      },
+      "id": "30f0dd32-93db-4683-83a4-6d0133a2eb5f",
+      "name": "JSON Master Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        300
+      ],
+      "notesInFlow": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://cleanenergydirect.app.n8n.cloud/webhook/17046e5b-65fc-4887-891e-4afddfcb972b",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "source_item_id",
+              "value": "={{ $node[\"Get Board ALL JOBS Item\"].json.id }}"
+            },
+            {
+              "name": "target_item_id",
+              "value": "={{ $node[\"Get Item Board #3\"].json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "16c5eae2-940c-403a-8d66-acd803bfa2f7",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3340,
+        520
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:38:16.000Z",
+  "versionId": "c190dad8-8ba4-44bf-822c-06c987487a2e"
+}
