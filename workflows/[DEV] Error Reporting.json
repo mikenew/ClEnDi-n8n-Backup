@@ -1,0 +1,120 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Error Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Error Record": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Update Error Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-15T06:40:24.735Z",
+  "id": "36",
+  "name": "[DEV] Error Reporting",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "cec9d2da-9a38-437d-b20e-e0ee266ee4f4",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4439036602",
+        "groupId": "new_group73310",
+        "name": "={{ $now  && \"---\" && $json.execution.id && \"---\" && $json.execution.lastNodeExecuted }}",
+        "additionalFields": {}
+      },
+      "id": "63b90f42-f052-4392-a4a4-57cc871eedca",
+      "name": "Create Error Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "4439036602",
+        "itemId": "={{ $node['Create Error Record'].json.id }}",
+        "columnValues": "={{ $json.column_update_json }}"
+      },
+      "id": "dc2bcac6-a065-41df-8e6a-4be7e061dc8c",
+      "name": "Update Error Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "var outuputJSON = {};\n\noutuputJSON[\"text3\"] = $node[\"Error Trigger\"].json[\"execution\"][\"id\"];\n// outuputJSON[\"link3\"] = $node[\"Error Trigger\"].json[\"execution\"][\"url\"];\noutuputJSON[\"numbers\"] = $node[\"Error Trigger\"].json[\"execution\"][\"retryOf\"].replace(/[^0-9]/g, '');\noutuputJSON[\"text5\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"message\"];\noutuputJSON[\"text8\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"stack\"];\noutuputJSON[\"text6\"] = $node[\"Error Trigger\"].json[\"execution\"][\"lastNodeExecuted\"];\noutuputJSON[\"text4\"] = $node[\"Error Trigger\"].json[\"execution\"][\"mode\"];\noutuputJSON[\"text86\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"id\"];\noutuputJSON[\"text_1\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"name\"];\n\nlet column_update_json = JSON.stringify(outuputJSON);\n\nreturn {\n  column_update_json\n};\n"
+      },
+      "id": "4e4ae669-cbdc-4016-9480-f280fab31a53",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        520
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-06-15T07:13:26.000Z",
+  "versionId": "5c763486-6b01-4d07-a89a-6b5a40b0f387"
+}
