@@ -1,0 +1,337 @@
+{
+  "active": false,
+  "connections": {
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Item Lists1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-05-27T21:35:42.783Z",
+  "id": "32",
+  "name": "[PROD ALTERNATIVE] - Duplicate updates from Master record (backup)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Brief ... UPDATE SYNCHRONISATION\n1. Read the updates for a record from the Master Board (RMaster)\n2. Copy all the updates to another record on another Board (RCopy)\n\n\n\n**Inputs**: Both Board ID's and both Record ID's\n**Output**: RCopy now has all RMaster's Updates\n\n\n\n**Trigger**: when we press a button in Monday,\n**n8n Workflow** it will copy all the updates from the RMaster to another RCopy. so RCopy may have no updates, the RMaster may have 23 updates, need to copy all updates from RMaster to RCopy so RCopy ends up with 23 updates",
+        "height": 324.46302589463824,
+        "width": 630.2583085248555
+      },
+      "id": "e320781e-9eb9-47bb-ae8b-5195866492c1",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Checking results\nYou can use the API call on the \"Copy to\" record to see if the updates were successful",
+        "height": 90.97535059642556,
+        "width": 625.5716915683658
+      },
+      "id": "2b41faa0-d1cb-4dd3-a2b6-0f71402ae845",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.items[0].updates",
+        "options": {}
+      },
+      "id": "13c22e99-b39b-4ceb-88c4-e485aee4d5e3",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2,
+      "position": [
+        700,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.monday.com/v2",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "=query {   items (ids:{{ $json[\"target_item_id\"] }} ) {     updates {       text_body   id  }   } }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "38151bc9-20e9-442b-8210-72c490ef6f71",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        480,
+        0
+      ],
+      "alwaysOutputData": false,
+      "notesInFlow": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Get Target Updates"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Ids",
+        "options": {}
+      },
+      "id": "badf1801-0899-4fe2-a7c9-f75ec718ceeb",
+      "name": "Item Lists1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2,
+      "position": [
+        920,
+        0
+      ],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "https://api.monday.com/v2",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "=mutation {delete_update (id: {{ $json[\"Ids\"] }}) { id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7935df55-cff1-4c69-935e-6349f002636c",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        280,
+        220
+      ],
+      "alwaysOutputData": false,
+      "notesInFlow": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3",
+          "name": "Header Auth account"
+        }
+      },
+      "continueOnFail": true,
+      "notes": "Delete old Updates on target item"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field\n// called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n  item.json.Titems= item.json.data.items[0].updates.length;\n  const data =item.json.data.items[0].updates;\n const ids = data.map(i => parseInt(i.id, 10));\nitem.json.Ids= ids;\n  \nconst sid = $('start').first().json[\"source_item_id\"];\nconst tid = $('start').first().json[\"target_item_id\"];\n  \n  item.json.SourceItem=parseInt(sid, 10);\n  item.json.TargetItem=parseInt(tid, 10);\n  \nconsole.log(\"sdfdsf\");\n\n}\n\nreturn $input.all();"
+      },
+      "id": "b5668afa-d24e-491d-ac59-e068e5fcadbe",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        700,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.monday.com/v2",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "=query {   items (ids:{{ $node[\"start\"].json[\"source_item_id\"] }} ) {     updates {       text_body   id  }   } }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5c8316d6-f375-4fd7-b6bf-540a829954d7",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        480,
+        220
+      ],
+      "alwaysOutputData": false,
+      "notesInFlow": true,
+      "executeOnce": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Get Target Updates"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "addUpdate",
+        "itemId": "={{ $('start').first().json.target_item_id }}",
+        "value": "={{ $json.text_body }}"
+      },
+      "id": "b39f4113-e2f8-4b2c-9202-d961b6e921b3",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        920,
+        220
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "17046e5b-65fc-4887-891e-4afddfcb972b",
+        "options": {}
+      },
+      "id": "9ca02c89-2116-4e34-9b4e-5db8486223b7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -260
+      ],
+      "webhookId": "c1f9210d-0c8a-42f3-ad50-2a44cc0e4562"
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\n//let s = $(\"start\").first().json.source_item_id;\n//let t = $(\"start\").first().json.target_item_id;\n\nlet s = parseInt($('Webhook').first().json.query.source_item_id);\nlet t = parseInt($('Webhook').first().json.query.target_item_id);\n\nlet sourceUpdates, targetUpdates;\n\nasync function init() {\n  await getUpdates(s,\"s\");\n  await getUpdates(t,\"t\");\n  \n  \n  targetUpdates.forEach((u) => {\n   delUpdates(u.id);\n});\n\n    sourceUpdates.forEach((u) => {\n   addUpdate(u.text_body,t);\n});\n  \n}\n\nawait init();\n\nreturn sourceUpdates;\n\n//getItemUpdates(4415379740);\n//up.forEach((u)=>{ console.log(u) });\n\n//////////////////////////////////////////////////////////////////////////\nfunction getUpdates(pulse,result) {\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `query {   items (ids:[${pulse}]  ) {     updates {       text_body   id  }   } }`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body);\n        //console.log(JSON.stringify(res, null, 2));\n\n        let updates = res.data.items[0].updates;\n        if(result==\"s\"){ sourceUpdates = updates; }\n         if(result==\"t\"){ targetUpdates = updates; }\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n/////////////////////////////////////////////////////////////\n\nfunction delUpdates(id) {\n   console.log(\"delUpdates called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `mutation { delete_update (id: ${id}) { id }}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n//////////////////////////////////////////////\n\nfunction addUpdate(text,pulse) {\n   console.log(\"addUpdate called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n  let query = `mutation {create_update (item_id: ${pulse}, body: \"${text}\") { id }}`;\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n"
+      },
+      "id": "1fbac0e8-2ee2-48b3-98b3-c69bf903d164",
+      "name": "Code1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Alternative to workflow 30\nThis one implements it as below. Workflow 30 is the primary and it is all done in code\nCompleted by Abdur 29 May 2023",
+        "height": 177.12871890528393,
+        "width": 510.63375870348693
+      },
+      "id": "26a0a76d-0117-40d2-b52d-f03d7aaf52aa",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        506.56093864380523,
+        -297.9737305099327
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-06-12T05:40:19.000Z",
+  "versionId": "457b1082-37cc-4494-8011-1aa7b747cbee"
+}
