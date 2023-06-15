@@ -1,0 +1,52 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-02-27T07:39:24.508Z",
+  "id": "19",
+  "name": "[TEST] Parent Trigger Worflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5894b669-eddc-4656-9ff8-b5f0feef9f1f",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        580,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "18"
+      },
+      "id": "82455620-700f-44f1-bc6a-88be18be8a31",
+      "name": "Execute Workflow",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        800,
+        240
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-02-27T07:40:55.000Z",
+  "versionId": "e28e8867-c0ef-4588-a039-e099fd6bec0a"
+}
