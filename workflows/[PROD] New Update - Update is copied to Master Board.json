@@ -1,0 +1,169 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET record that had an update added",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET record that had an update added": {
+      "main": [
+        [
+          {
+            "node": "GET Master Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Master Record": {
+      "main": [
+        [
+          {
+            "node": "ADD UPDATE to the Master Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-05-09T06:01:10.599Z",
+  "id": "29",
+  "name": "[PROD] New Update - Update is copied to Master Board",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cb198b6a-812e-4ca1-911b-83b0d89d889a",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ae28b401-b785-4f78-b6b0-184b2e71edcb",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        160,
+        520
+      ],
+      "webhookId": "cb198b6a-812e-4ca1-911b-83b0d89d889a"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "eb2dd951-f3d5-456f-b092-cb5632d25dbd",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        380,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "={{ $json.body.event.boardId }}",
+        "columnId": "pulse_id",
+        "columnValue": "={{ JSON.stringify($json[\"body\"][\"event\"][\"pulseId\"]) }}"
+      },
+      "id": "6703a9b7-8bd6-44eb-95f4-6a111e753aa6",
+      "name": "GET record that had an update added",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        380,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $json.name }}"
+      },
+      "id": "9fa85310-34eb-498b-993b-e1e3d8afac07",
+      "name": "GET Master Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        600,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## About\nThis Workflow duplicates an update to the master record whenever an update is added to a board.",
+        "width": 353
+      },
+      "id": "23d28cb5-31f1-4519-be36-31c24928e5e9",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "addUpdate",
+        "itemId": "={{ $json.column_values[2].text }}",
+        "value": "={{ $node.Webhook.json.body.event.textBody }}"
+      },
+      "id": "3732d272-930f-4a33-85f5-47ff00deb653",
+      "name": "ADD UPDATE to the Master Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        840,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:37:44.000Z",
+  "versionId": "6fba33ae-2f04-486d-8726-139860697e1d"
+}
