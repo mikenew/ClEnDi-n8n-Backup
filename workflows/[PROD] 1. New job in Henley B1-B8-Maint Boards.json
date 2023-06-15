@@ -1,0 +1,1263 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Today's Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today's Date": {
+      "main": [
+        [
+          {
+            "node": "GET Master Board Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF B1": {
+      "main": [
+        [
+          {
+            "node": "Create Items in All Jobs from B1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Create Items in All Jobs from B2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Items in All Jobs from B3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Items in All Jobs from B4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Create Items in All Jobs from B5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Items in All Jobs from B6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Items in All Jobs from B7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B1": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B8": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B7": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B6": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B5": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B4": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B3": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B2": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Create Items in All Jobs from B8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Items in All Jobs from B9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "END - Not a Henley Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Items in All Jobs from B9": {
+      "main": [
+        [
+          {
+            "node": "Set Stage to B9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Master Board Item": {
+      "main": [
+        [
+          {
+            "node": "IF Item is in Master Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Item is in Master Board": {
+      "main": [
+        [
+          {
+            "node": "Do Nothing as Item is already in the Master Board",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF B1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B1": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B2": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B9": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B8": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B7": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B6": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B5": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B4": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Stage to B3": {
+      "main": [
+        [
+          {
+            "node": "Set Job Type to Henley2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-01-21T03:47:08.985Z",
+  "id": "1",
+  "name": "[PROD] 1. New job in Henley B1-B8-Maint Boards",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f140de80-950b-476e-a77b-e802e786bf68",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c0309ad5-e372-4d8b-9c2f-030afbcb608b",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        380,
+        220
+      ],
+      "webhookId": "f140de80-950b-476e-a77b-e802e786bf68",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "aad3d5d0-2bb0-4eb4-8b85-f82be0ba05aa",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        660,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B1\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"1. Jobs Received\"\n    }) \n\n\n}}"
+      },
+      "id": "f357ddd3-b370-401a-8cea-ad12486a0a13",
+      "name": "Set Stage to B1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        320
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "var date_today = new Date().toISOString().slice(0, 10);\n\n//items[0].json.date_today = date;\n\nreturn {date_today};"
+      },
+      "id": "96c68d9c-dfd4-4326-a253-6cd92279d117",
+      "name": "Get Today's Date",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        660,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "value1": "={{ $node.Webhook.json.body.event.boardId }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "equal",
+              "value2": 3753873737
+            },
+            {
+              "operation": "equal",
+              "value2": 3601419425,
+              "output": 1
+            },
+            {
+              "operation": "equal",
+              "value2": 3613865038,
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "c4f521b1-28f5-4814-93dc-e5404243ee9e",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $node.Webhook.json.body.event.boardId }}",
+              "operation": "equal",
+              "value2": 3595633575
+            }
+          ]
+        }
+      },
+      "id": "e50ee5ce-60d1-4a3e-9daa-d3dfa3c8eee7",
+      "name": "IF B1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "value1": "={{ $node.Webhook.json.body.event.boardId }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "equal",
+              "value2": 3754002055
+            },
+            {
+              "operation": "equal",
+              "value2": 3613870772,
+              "output": 1
+            },
+            {
+              "operation": "equal",
+              "value2": 3613908851,
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "8cb155f5-def3-468b-b5c0-f9efd47d1769",
+      "name": "Switch1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "topics",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "dd45e750-5a8a-41e3-b2f9-c1dcd6d2a1e1",
+      "name": "Create Items in All Jobs from B1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        320
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group95636",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "9b11631d-9fb5-42af-ae09-2486df38c763",
+      "name": "Create Items in All Jobs from B2",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group62598",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "23d416ff-dd0e-477d-8c51-e361020c30e3",
+      "name": "Create Items in All Jobs from B3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        700
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group75714",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "ae7b64bc-9a3c-41b2-afe9-ff42b3b36f6f",
+      "name": "Create Items in All Jobs from B4",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        900
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group87115",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "08e6282f-d3a8-453a-b896-97a96ac3ab73",
+      "name": "Create Items in All Jobs from B5",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        1080
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group36079",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "12c606fa-8b94-4a4f-b539-d7d0a5a8d964",
+      "name": "Create Items in All Jobs from B6",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        1280
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group82180",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "7c9fa455-13c7-4727-a5b6-030f345ca077",
+      "name": "Create Items in All Jobs from B7",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        1480
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group32873",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "99b35dea-b336-439f-a577-72de739047f8",
+      "name": "Create Items in All Jobs from B8",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        1680
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B2\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"2. Ready for Call up\"\n    }) \n\n\n}}"
+      },
+      "id": "6d00f4cf-f9b5-4caa-a9a3-3f413c9f628f",
+      "name": "Set Stage to B2",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B3\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"3. Stage 1 Booked\"\n    }) \n\n\n}}"
+      },
+      "id": "0739d5b9-b43f-4d4b-ae5c-de030df2ab3b",
+      "name": "Set Stage to B3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        700
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B4\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"4. Stage 2 Pending\"\n    }) \n\n\n}}"
+      },
+      "id": "922b6985-232c-4d61-a6ab-8d06a8299581",
+      "name": "Set Stage to B4",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        900
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B5\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"5. Stage 2 Ready for Call Up\"\n    }) \n\n\n}}"
+      },
+      "id": "ec7e7013-64a2-4042-bb9a-cdde824961f8",
+      "name": "Set Stage to B5",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        1080
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B6\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"6. Stage 2 Booked\"\n    }) \n\n\n}}"
+      },
+      "id": "ac0ff523-a4de-4af1-b6e8-2002e34c3b2d",
+      "name": "Set Stage to B6",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        1280
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B7\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"7. CES/Post Install\"\n    }) \n\n\n}}"
+      },
+      "id": "da1354b6-19d8-4070-8c59-1c97f8fdcb11",
+      "name": "Set Stage to B7",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        1480
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B8\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"8. Completed\"\n    }) \n\n\n}}"
+      },
+      "id": "9b00638a-fdae-40ae-9edd-25d016d512dd",
+      "name": "Set Stage to B8",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        1680
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "value1": "={{ $node.Webhook.json.body.event.boardId }}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "equal",
+              "value2": 3613911341
+            },
+            {
+              "operation": "equal",
+              "value2": 3795225200,
+              "output": 1
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "56ac3017-0c11-440c-a7aa-cd14f226d8d5",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        1780
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "=3729016273",
+        "groupId": "new_group15355",
+        "name": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "d636d397-bb30-4906-ba02-84983b143b20",
+      "name": "Create Items in All Jobs from B9",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        1880
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B9\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"dup__of_load_1drive4\"    :\"9. Maintenance/Defects\"\n    }) \n\n\n}}"
+      },
+      "id": "0e8f3207-752d-4f96-8525-3df325cd4329",
+      "name": "Set Stage to B9",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        1880
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field\n// called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "id": "0387f696-be2c-463c-851c-75718b8d220a",
+      "name": "END - Not a Henley Board",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        2120
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}"
+      },
+      "id": "9ae861e4-de16-4bc6-9219-dc3e3f61f600",
+      "name": "GET Master Board Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        880,
+        320
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "f1c82ef2-36c6-4dde-8e3e-57ef2a11cb93",
+      "name": "Do Nothing as Item is already in the Master Board",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.id }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "f1b1c20b-1947-4ab2-a523-b3a1386a408c",
+      "name": "IF Item is in Master Board",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## New Job Created in Henley Boards\n\n### Check if Master exists\n\n#### If it does \n do nothing\n\n#### if doesn't\n  add the job to the Master record\n  and set the stage based on the board it came from\n  and set the customer to Henley\n\n",
+        "height": 973.4858437819512,
+        "width": 768.8121905793853
+      },
+      "id": "c799dbc9-21e7-45a4-881b-33614813f839",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        380,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B1\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "046ef6cb-31ea-4a01-b2dd-22b617f1cb71",
+      "name": "Set Job Type to Henley",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        320
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B2\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "add9154b-4d28-4750-a67d-d146f47d6abd",
+      "name": "Set Job Type to Henley1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B3\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "68c97d42-7026-43bd-92c6-1adde39234d3",
+      "name": "Set Job Type to Henley2",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        700
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B4\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "5e087423-4e85-496a-9541-10fee4d840c4",
+      "name": "Set Job Type to Henley3",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        900
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B5\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "94ee07a2-bd4c-4954-b791-f84e89794d9e",
+      "name": "Set Job Type to Henley4",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1080
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B6\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "90709521-0c7b-4071-9258-458247f29e23",
+      "name": "Set Job Type to Henley5",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1280
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B7\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "dd7473b1-6962-41f3-8a33-f8159b29d4af",
+      "name": "Set Job Type to Henley6",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1480
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B8\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "f87436c1-075c-41f6-b572-b12c9f53523e",
+      "name": "Set Job Type to Henley7",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1680
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3729016273",
+        "itemId": "={{ $node[\"Create Items in All Jobs from B9\"].json[\"id\"] }}",
+        "columnValues": "={{ \n    JSON.stringify(\n        {\"status42\"    :\"Henley\"\n    }) \n\n\n}}"
+      },
+      "id": "faf21476-4bfb-44ac-9946-83038604e857",
+      "name": "Set Job Type to Henley8",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1880
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-12T05:39:41.000Z",
+  "versionId": "2deebbee-faff-417f-89f6-cdbee8ca6104"
+}
