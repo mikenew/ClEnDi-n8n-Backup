@@ -1253,11 +1253,12 @@
   "settings": {
     "saveDataSuccessExecution": "all",
     "saveManualExecutions": false,
-    "callerPolicy": "workflowsFromSameOwner"
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
   },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-12T05:39:41.000Z",
-  "versionId": "2deebbee-faff-417f-89f6-cdbee8ca6104"
+  "updatedAt": "2023-06-16T07:23:17.000Z",
+  "versionId": "b1c7234a-c9c9-489d-8f2f-5640189a9bf8"
 }
