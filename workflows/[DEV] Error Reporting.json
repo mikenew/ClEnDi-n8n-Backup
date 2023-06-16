@@ -16,14 +16,14 @@
       "main": [
         [
           {
-            "node": "Code",
+            "node": "JSON Update Code",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code": {
+    "JSON Update Code": {
       "main": [
         [
           {
@@ -98,10 +98,10 @@
     },
     {
       "parameters": {
-        "jsCode": "var outuputJSON = {};\n\noutuputJSON[\"text3\"] = $node[\"Error Trigger\"].json[\"execution\"][\"id\"];\n// outuputJSON[\"link3\"] = $node[\"Error Trigger\"].json[\"execution\"][\"url\"];\noutuputJSON[\"numbers\"] = $node[\"Error Trigger\"].json[\"execution\"][\"retryOf\"].replace(/[^0-9]/g, '');\noutuputJSON[\"text5\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"message\"];\noutuputJSON[\"text8\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"stack\"];\noutuputJSON[\"text6\"] = $node[\"Error Trigger\"].json[\"execution\"][\"lastNodeExecuted\"];\noutuputJSON[\"text4\"] = $node[\"Error Trigger\"].json[\"execution\"][\"mode\"];\noutuputJSON[\"text86\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"id\"];\noutuputJSON[\"text_1\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"name\"];\n\nlet column_update_json = JSON.stringify(outuputJSON);\n\nreturn {\n  column_update_json\n};\n"
+        "jsCode": "var outuputJSON = {};\n\noutuputJSON[\"exec_link\"] = $node[\"Error Trigger\"].json[\"execution\"][\"url\"];\n// NO RETRY outuputJSON[\"numbers\"] = $node[\"Error Trigger\"].json[\"execution\"][\"retryOf\"].replace(/[^0-9]/g, '');\n\noutuputJSON[\"text69\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"name\"];\noutuputJSON[\"text5\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"message\"];\noutuputJSON[\"text8\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"stack\"];\n\noutuputJSON[\"text6\"] = $node[\"Error Trigger\"].json[\"execution\"][\"lastNodeExecuted\"];\noutuputJSON[\"text4\"] = $node[\"Error Trigger\"].json[\"execution\"][\"mode\"];\noutuputJSON[\"text86\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"id\"];\noutuputJSON[\"text_1\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"name\"];\noutuputJSON[\"status_17\"] = \"Yes\";\n\nlet column_update_json = JSON.stringify(outuputJSON);\n\nreturn {\n  column_update_json\n};\n"
       },
       "id": "4e4ae669-cbdc-4016-9480-f280fab31a53",
-      "name": "Code",
+      "name": "JSON Update Code",
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
       "position": [
@@ -115,6 +115,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2023-06-15T07:13:26.000Z",
-  "versionId": "5c763486-6b01-4d07-a89a-6b5a40b0f387"
+  "updatedAt": "2023-06-16T07:51:42.000Z",
+  "versionId": "416c5954-246f-484b-be36-250340316a8e"
 }
