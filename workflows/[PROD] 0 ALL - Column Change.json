@@ -336,6 +336,17 @@
           }
         ]
       ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Mike's Test Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2023-01-30T05:53:59.953Z",
@@ -370,27 +381,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "number": [
-            {
-              "value1": "={{ $json[\"body\"][\"event\"][\"boardId\"] }}",
-              "operation": "notEqual",
-              "value2": "3595633575"
-            }
-          ]
-        }
-      },
-      "id": "50f6c7d4-2fa8-49f6-a93f-bc8af29bce6f",
-      "name": "IF Board 1. Jobs Received",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 1,
-      "position": [
-        900,
-        860
-      ]
-    },
-    {
-      "parameters": {
         "keepOnlySet": true,
         "values": {
           "string": [
@@ -409,28 +399,6 @@
       "position": [
         2840,
         80
-      ]
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "=JSON_Dependancy",
-              "value": "={{ \n  JSON.stringify(\n         {\n            \"Supervisor\"\n            : \n            { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n          }\n                 )\n\n\n\n\n/*\n  JSON.stringify(\n                  { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n                 )\n\n\n                  $json[\"all_jobs_column_changed_id\"]\n                  :\n\n\n\n\nmyColumnValues: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166] } }\n\n \"COLUMN_ID\"  : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][17][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n\nAPI REFERENCE\nchange_multiple_column_values (item_id:1587277166, board_id:1587277136, column_values: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166]} }\")\n}\n*/\n\n\n}}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "d2454a87-5853-4ce7-95b6-2fc54a3a8563",
-      "name": "JSON Board-Relation",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        3580,
-        280
       ]
     },
     {
@@ -656,28 +624,6 @@
           "name": "Monday.com - Clean Energy Direct"
         }
       }
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "name": "={{ $json[\"all_jobs_column_changed_id\"] }}",
-              "value": "={{ \n  JSON.stringify(\n                  { \"item_ids\": $node[\"Webhook\"].json[\"body\"][\"event\"][\"value\"][\"linkedPulseIds\"][0][\"linkedPulseId\"] }\n                 )\n\n\n\n\n/*\nmyColumnValues: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166] } }\n\n \"COLUMN_ID\"  : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][17][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n\nAPI REFERENCE\nchange_multiple_column_values (item_id:1587277166, board_id:1587277136, column_values: \"{\\\"dependent_on\\\" : {\\\"item_ids\\\" : [1587277166]} }\")\n}\n*/\n\n\n}}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "857f338b-911a-4523-8f62-12ca195d8673",
-      "name": "JSON Board-Relation1",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        3620,
-        500
-      ]
     },
     {
       "parameters": {},
@@ -1115,17 +1061,31 @@
         2240,
         340
       ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "Testing Mike Error 888"
+      },
+      "id": "798f426e-e65e-468b-89cb-b8f46c6ca46e",
+      "name": "Mike's Test Error",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        960
+      ]
     }
   ],
   "pinData": {},
   "settings": {
     "saveDataSuccessExecution": "all",
     "saveManualExecutions": false,
-    "callerPolicy": "workflowsFromSameOwner"
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
   },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-12T05:39:14.000Z",
-  "versionId": "40c05069-caa1-4d65-b92f-1fbca68c6d47"
+  "updatedAt": "2023-06-16T07:53:26.000Z",
+  "versionId": "239e0e3a-2b36-47d6-ab79-8324fe34b8d6"
 }
