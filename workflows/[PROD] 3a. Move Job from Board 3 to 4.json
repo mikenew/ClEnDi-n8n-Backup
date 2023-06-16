@@ -486,10 +486,14 @@
     }
   ],
   "pinData": {},
-  "settings": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-12T05:38:25.000Z",
-  "versionId": "82804e6c-b2bc-4cf6-86d4-657042a751f7"
+  "updatedAt": "2023-06-16T07:24:46.000Z",
+  "versionId": "acc0278a-6679-4897-8df7-de98175c9879"
 }
