@@ -517,10 +517,14 @@
     }
   ],
   "pinData": {},
-  "settings": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-12T05:38:43.000Z",
-  "versionId": "ee3cfdd0-7996-41d1-b16e-97acd169a8e3"
+  "updatedAt": "2023-06-16T07:24:12.000Z",
+  "versionId": "458504bf-9540-463b-8a77-de8c1ebf0aaf"
 }
