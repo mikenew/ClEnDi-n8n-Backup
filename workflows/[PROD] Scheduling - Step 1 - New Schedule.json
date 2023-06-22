@@ -1,0 +1,239 @@
+{
+  "active": true,
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Update Job Stage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Job Stage": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "set customer column to henly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-05T22:18:40.106Z",
+  "id": "33",
+  "name": "[PROD] Scheduling - Step 1 - New Schedule",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "22d8adf9-a95f-432e-8ea9-5e13cab932f7",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "10d1d0a4-f2ec-47c4-9035-c5930c185cd6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        280
+      ],
+      "webhookId": "22d8adf9-a95f-432e-8ea9-5e13cab932f7"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"challenge\":\"{{ $json.body.challenge }}\"}",
+        "options": {}
+      },
+      "id": "2f12d5bd-9b55-4f9b-9b19-1a2421daabed",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\n//henly folder id=9683937\n//customer column indexes: henly=1 not applicable=2, \nlet pulse, links={}, jobStatusIndex,  initiating_folder_id, initiating_board, linkedColumn ,linkedColumn_pulse_board_id;\n\nasync function init() {\n  \n   //  let pulseId = 4593382215;\n  let pulseId = parseInt( $('Webhook').first().json.body.event.pulseId );\n\n  pulse =await getPulse(pulseId);\n  \n  await updateJobStage(pulse);\n  \n  linkedColumn_pulseId= await getLinkedPulse();\nlet linkedColumn_pulse =await getPulse(linkedColumn_pulseId);\n initiating_board= parseInt(linkedColumn_pulse.board.id);\n\n  initiating_folder_id=await getBoardDetails(initiating_board);\n //let jobStatusColumnId=\"dup__of_status\";\n \n  //await updateStatusColumn(pulse,\"dup__of_status\",0);\n  //await test();\n  \n}\n \n\nawait init();\nreturn [{\n  pulse_id:parseInt( pulse.id),\n  board_id:parseInt(pulse.board.id),\n  jobStatusIndex:jobStatusIndex,\n  columnId:\"dup__of_status\" ,\n  customer_column:\"status1\",\n  linkedColumn_pulseId,\n  initiating_board,\n  initiating_folder_id,\n  \n}]\n\n\n\n\n\n//////////////////////////////////////////////////////////////////////////\nfunction getPulse(pid) {\n  \n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n    //let pulse ={pulseId}\n    \n    let query = `{items (ids: ${parseInt(pid)}) { id name created_at updated_at state board { id } creator_id group { id title deleted archived } column_values { id value additional_info text title } assets { id name public_url url file_extension } parent_item { id name created_at updated_at state board { id } creator_id group { id } column_values { id value additional_info text title } } subitems { id name created_at updated_at state board { id } creator_id group { id } column_values { id value additional_info text title } } }}\n`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query:query}),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body).data.items[0];\n        //console.log(JSON.stringify(res, null, 2));\n\n    \n        //console.log(updates);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n      \n    }); // promise end\n  \n\n}// function end\n\n///////////////////////////////////////////////////////////////////////\nfunction getBoardDetails(bid) {\n  \n  return new Promise((resolve, reject) => {\n      \n  let query = `query { boards (ids: ${bid}) { name state id permissions board_folder_id }}`;\n\nconst request = require('request');\n\nconst options = {\n  url: 'https://api.monday.com/v2',\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'Authorization': key\n  },\n  body: JSON.stringify({\n    query: query\n  })\n};\n\nrequest(options, (error, response, body) => {\n  if (error) {\n    console.error(error);\n    reject(error);\n  } else {\n    const res = JSON.parse(body);\n    //console.log(JSON.stringify(res, null, 2));\n    resolve(res.data.boards[0].board_folder_id);\n  }\n});\n         \n }); // promise end\n  \n}// function end\n//////////////////////////////////////////////////////////////////////////\nasync function updateJobStage(pulse) {\n   return new Promise((resolve, reject) => {\n     \nconsole.log(\"inside updateJobStatus....\")\nconsole.log(pulse);\n\n    /*\"0\":\"Henley Stage 1\",\n\"1\":\"Commercial - Stage xxx\",\n\"3\":\"Henley Stage 2\"*/\n    \nlet cols = pulse.column_values;\n\n//link to 3. Stage 1 Booked- 0\":\"Henley Stage 1\"\nlet l3=cols.find(itemm => itemm.id === \"board_relation\" );\nconst l3s1 = l3 ? l3.text: null;\nif(l3s1){\n  linkedColumn=l3;\n  jobStatusIndex=0; resolve();\n}\n\n//link to 6. Stage 2 Booked - \"3\":\"Henley Stage 2\"\nlet l6=cols.find(itemm => itemm.id === \"connect_boards6\" );   \nconst l6s2 = l6 ? l6.text: null;\nif(l6s2){\n  linkedColumn=l6;\n  jobStatusIndex=3; resolve();\n}\n     \nconsole.log({l3s1, l6s2});\n     \n     links.l3s1=l3s1;\n     links.l6s2=l6s2;\n     \n     resolve();\n\n        }); // promise end\n}\n//////////////////////////////////////////////////\nfunction getLinkedPulse(){\nreturn new Promise((resolve, reject) => {\n  const obj = linkedColumn;\n// Parse the \"value\" property as a JSON object\nconst parsedValue = JSON.parse(obj.value);\n\n// Retrieve the first \"linkedPulseId\" from the \"linkedPulseIds\" array\nconst linkedPulseId = parsedValue.linkedPulseIds && parsedValue.linkedPulseIds.length > 0\n  ? parsedValue.linkedPulseIds[0].linkedPulseId\n  : \"\";\n\nconsole.log(linkedPulseId);\n  \n  resolve(linkedPulseId);\n   }); // promise end\n}\n\n///////////////////////////////////////////////////////////////////////\nfunction updateStatusColumn(pulse,colId,index){\nconsole.log(\"update status column....\")\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n  \n let query =\"mutation { change_multiple_column_values (board_id: 4324047040, item_id: 4593382215, column_values: \\\"{ \\\\\\\"dup__of_status\\\\\\\": {\\\\\\\"index\\\\\\\":0} }\\\", create_labels_if_missing: false) { id } }\";\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query : query}),\n    };\n\n  \n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body).data.items[0];\n        console.log(JSON.stringify(res, null, 2));\n    \n        //console.log(updates);\n        resolve(res);\n      } else {\n        reject({\"Error\": \"Something went wrong!\"});\n      }\n    }); //request() end\n    \n      \n    }); // promise end\n  \n}\n\n///////////////////////////////////////////////////////////////////////\n"
+      },
+      "id": "ca2c1d38-d3bb-4718-9c32-e5ad1a63fd6e",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        280
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.jobStatusIndex }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "7609ad44-39ea-4221-8c09-2ae43453ef34",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "={{ parseInt ($json[\"board_id\"]) }}",
+        "itemId": "={{ parseInt( $json[\"pulse_id\"] ) }}",
+        "columnId": "={{ $json.columnId }}",
+        "value": "={\"index\":{{ $json[\"jobStatusIndex\"]}}}"
+      },
+      "id": "3e2931e9-ac7d-423c-9c9d-ed7d4ef3a427",
+      "name": "Update Job Stage",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        60,
+        260
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $node.Code.json.initiating_folder_id }}",
+              "operation": "equal",
+              "value2": 9683937
+            }
+          ]
+        }
+      },
+      "id": "9cbb153a-8e41-4a5c-a07f-d803b5854a78",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        280,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "={{ $node.Code.json.board_id }}",
+        "itemId": "={{ $node.Code.json.pulse_id }}",
+        "columnId": "={{ $node.Code.json.customer_column }}",
+        "value": "={\"index\": 1}"
+      },
+      "id": "0634c840-d68f-4ef6-94fb-7ce230fe9dd9",
+      "name": "set customer column to henly",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        520,
+        240
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Scheduling - New Schedule\n**Trigger**\nThis workflow runs when a user clicks the Schedule Button in one of the job tracking boards\n\n**Actions**\n1. Finds the newly created schedule record in the Schedule board based on the first columns matching or the link that was created above in step 1 above in the column link to 3 - Stage 1 Booked \n\n2. Checks which board the script was initiated from and then Updates the Job Stage column to the appropriate value\n    a/ To do this you’ll need to check the “link to …” columns. Whichever column has a link in it then that is the board that created the record. At the moment there is only the above two columns and there will be more in the future\n    b/ If column  link to 3 Stage 1 has a link … then column Job Stage becomes Henley Stage 1\n    c/ If column  link to 6 Stage 2 has a link … then column Job Stage becomes Henley Stage 2\n\n3. If the initiating board is a Henley board then set the column Customer to Henley \n",
+        "height": 375.525156697102,
+        "width": 805.62211855142
+      },
+      "id": "94f3860c-7cce-4507-8a1e-00e25eaab555",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        -180
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-06-15T06:31:40.563Z",
+      "updatedAt": "2023-06-15T06:31:40.563Z",
+      "id": "3",
+      "name": "PROD"
+    },
+    {
+      "createdAt": "2023-06-22T00:38:53.196Z",
+      "updatedAt": "2023-06-22T00:38:53.196Z",
+      "id": "4",
+      "name": "Scheduling"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-22T00:39:29.000Z",
+  "versionId": "0a7bc544-47b0-4d63-8281-037b1af53e50"
+}
