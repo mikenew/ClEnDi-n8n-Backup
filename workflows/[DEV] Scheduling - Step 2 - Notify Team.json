@@ -1,0 +1,776 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get the Notification Item from Schedule Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get the Notification Item from Schedule Board": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2c Add Update to Schedule Item": {
+      "main": [
+        [
+          {
+            "node": "2e Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2a Construct JSON": {
+      "main": [
+        [
+          {
+            "node": "2a Update the Allocation Status Column",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2e Send Email": {
+      "main": [
+        [
+          {
+            "node": "2a Construct JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF no Master Board link": {
+      "main": [
+        [
+          {
+            "node": "2d Find Master Board Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2d Construct JSON": {
+      "main": [
+        [
+          {
+            "node": "2d Update Master Board Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2d Find Master Board Record": {
+      "main": [
+        [
+          {
+            "node": "2d Construct JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Create Henley S1 Checklist",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Henley S2 Checklist",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2f Construct JSON": {
+      "main": [
+        []
+      ]
+    },
+    "Create Henley S1 Checklist": {
+      "main": [
+        [
+          {
+            "node": "2f Construct JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Henley S2 Checklist": {
+      "main": [
+        [
+          {
+            "node": "2f Construct JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2f Construct JSON1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "2f Update Schedule Board Link to Checklist": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "2f Update Schedule Board Link to Checklist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-22T00:38:46.534Z",
+  "id": "37",
+  "name": "[DEV] Scheduling - Step 2 - Notify Team",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "714564a9-185c-441f-bb5e-9d4016263387",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ebd99d2f-faa0-4056-a4de-a4946cfd3cf4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        120,
+        40
+      ],
+      "webhookId": "714564a9-185c-441f-bb5e-9d4016263387"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "500f256f-4153-4d3c-8b49-8a8a3a22f47b",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Notify Team\n**Trigger**\n\n**Actions**\n1. checks if anyone (team lead of install tem) is double allocated on the same day, (each person can only be allocated to one job on one day)  \nif over allocated then:\nNotifies the user of the overallocation - include the details of the person(s) and their  two schedules that are overallocated\nSets the Allocation Status of the Scheduling Board to Overallocated \nUpdates the Scheduling Record with an overallocation alert with the name of the person who is overallocated\nEnds\n\n\n2. If no one is over allocated then the script \n     a/ Sets the Schedule Board allocation status to Team Allocated \n     b/ Assigns all the people in the  Team Lead and the Install Team  columns to the Person column (this is so that they are notified that they are on the team)\n     c/ Adds an update to the Schedule and 3 - Stage 1 Booked Board’s Record to note when the team was allocated and by who (user who pressed the button)\n     d/ Ensure there is a connection in the  ALL JOBS, MASTER board’s S1 Schedule column to the  Schedule  record\n     e/ eMails each person in the Team Lead and the Install Team  with the job details \n     f/ Creates the checklist and/or forms or the job based upon the Job Stage column in their relevant boards - There is one board for each checklist and each form\n     g/ Links the Checklist and Form to the Schedule and to the All Jobs Master boards\n     h/ Creates the JSA’s for each team member and team lead for the Schedule in the   JSA board\n     i/ Links the JSA’s to  the Schedule and to the All Jobs Master boards",
+        "height": 482,
+        "width": 1120.9375
+      },
+      "id": "d702e11b-0340-4682-82dd-d72bc70c603b",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "={{ $json.body.event.boardId }}",
+        "columnId": "name",
+        "columnValue": "={{ $json.body.event.pulseName }}"
+      },
+      "id": "2c9fc94f-4776-4d97-98dc-5c4d46fc353b",
+      "name": "Get the Notification Item from Schedule Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        360,
+        40
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "addUpdate",
+        "itemId": "4678893785",
+        "value": "={{ \"notify Udpate\" }}"
+      },
+      "id": "a0b83d27-748c-4fea-b916-45afc6369f86",
+      "name": "2c Add Update to Schedule Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "={{ $node.Webhook.json.body.event.boardId }}",
+        "itemId": "={{ $node.Webhook.json.body.event.pulseId }}",
+        "columnId": "person",
+        "value": "{{}}"
+      },
+      "id": "009575e4-0643-463c-94e3-602cd4ae899e",
+      "name": "2b Update the Person Column",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        860
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "var outuputJSON = {};\n\noutuputJSON = { label: \"Team Allocated\" };\n  \nlet updateJSON = JSON.stringify(outuputJSON);\n\nreturn {\n  updateJSON\n};"
+      },
+      "id": "d6b2959f-28aa-4e7f-9a8a-0fb172ca0f77",
+      "name": "2a Construct JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "={{ $node.Webhook.json.body.event.boardId }}",
+        "itemId": "={{ $node.Webhook.json.body.event.pulseId }}",
+        "columnId": "status",
+        "value": "={{ $json.updateJSON }}"
+      },
+      "id": "26f5d7b0-547e-4f00-bfbb-01040908b78f",
+      "name": "2a Update the Allocation Status Column",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2580,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "admin@cleanenergydirect.com.au",
+        "toEmail": "mike@wildcommunity.org",
+        "subject": "Testing from Mike Scheduling Notification",
+        "text": "Testing from Mike Scheduling Notification\n\nTesting from Mike Scheduling Notification\n\nTesting from Mike Scheduling Notification",
+        "options": {}
+      },
+      "id": "3a651d6e-7448-4df0-83ab-4cfc1c2e09e5",
+      "name": "2e Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        2040,
+        520
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "7",
+          "name": "Mike New SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 2a Update Team Allocated Status",
+        "height": 270,
+        "width": 432
+      },
+      "id": "aa70d0ce-6173-4ddd-8adc-b1fd524f46b5",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        441
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2b Assign to People Column",
+        "height": 311,
+        "width": 422
+      },
+      "id": "a7fdb3d8-ffe6-40b3-b171-74b17a842afa",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2d Master board Connection\n**Error in the JSON Code - need to get rid of the quotes around the ID**",
+        "height": 349.875,
+        "width": 961.625
+      },
+      "id": "fc23e688-6a10-4860-8458-2bfcbc48a456",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2f Create Checklist",
+        "height": 619.0625,
+        "width": 1086
+      },
+      "id": "6543c0a9-07d0-4936-982c-39c0158feaf6",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2g Link Checklist",
+        "height": 304,
+        "width": 434
+      },
+      "id": "e9fec63c-0244-4819-806c-ceecd902c1e1",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2h Create JSA",
+        "height": 288,
+        "width": 411
+      },
+      "id": "7a8e4979-4dee-4cee-9851-3d3004edb651",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        1560
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2i Link JSA",
+        "height": 274,
+        "width": 436
+      },
+      "id": "998281f7-e546-4884-9757-be99aae8202c",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        1560
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2c Add Update",
+        "height": 272,
+        "width": 202
+      },
+      "id": "f125d2e7-908c-40b3-b38c-2f4a7771c3da",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1474,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2e Send eMails",
+        "height": 271,
+        "width": 512
+      },
+      "id": "48e083d3-dd81-4f28-8973-c71468b724fe",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.column_values[25].value }}",
+              "value2": "={{  null }}"
+            }
+          ]
+        }
+      },
+      "id": "a643382a-2ec3-4db7-bd98-d8ea725f6186",
+      "name": "IF no Master Board link",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        440,
+        527
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const masterItemID = [$node[\"2d Find Master Board Record\"].json.id];\n\nconst outuputJSON =  {board_relation3:{item_ids:masterItemID}};\n\nconst linkJSON = JSON.stringify(outuputJSON);\n\nreturn { linkJSON };\n\n// ERROR ... quotes around the ID .... {\"board_relation3\":{\"item_ids\":[\"4431037460\"]}}\n// Correct Format \"board_relation3\":{\"item_ids\":[4431037460]}"
+      },
+      "id": "e9129248-e0cf-488e-9295-7ecd26ca1437",
+      "name": "2d Construct JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        880,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "={{ $node.Webhook.json.body.event.boardId }}",
+        "itemId": "={{ $node.Webhook.json.body.event.pulseId }}",
+        "columnValues": "{\"board_relation3\":{\"item_ids\":[4431037460]}}"
+      },
+      "id": "f815e0dc-ee31-444f-a0f1-cf0c3ce464c8",
+      "name": "2d Update Master Board Link",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        500
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## WebHook and Get Schedule Item",
+        "height": 460,
+        "width": 499.375
+      },
+      "id": "05258e4c-72ce-4a8a-9ace-8b26d477ba3b",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $json.name }}"
+      },
+      "id": "33cec4fc-cfbc-4dbf-8b1b-576710fd8745",
+      "name": "2d Find Master Board Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        660,
+        500
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Progress\n\n1 Not stareted\n\n2a DONE\n2b \n2c Format the update\n2d Remove the quotes then it works\n2e Format the email, get the SMTP\n2f\n2g\n2h\n2i\n",
+        "height": 480.3125,
+        "width": 650.9375
+      },
+      "id": "bed7c74c-709f-4190-8739-18c0fe8eef7c",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "boolean",
+        "value1": "={{ $json.column_values[4].text }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "={{ \"Henley Stage 1\" }}"
+            },
+            {
+              "value2": "={{ \"Henley Stage 2\" }}",
+              "output": 1
+            }
+          ]
+        },
+        "fallbackOutput": 2
+      },
+      "id": "d6031132-5877-4cb2-9aad-d246c41b5b07",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        380,
+        980
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4507443326",
+        "groupId": "topics",
+        "name": "={{ $node['Get the Notification Item from Schedule Board'].json.name }}",
+        "additionalFields": {}
+      },
+      "id": "cf50f279-6ca9-441d-a929-1406550e122f",
+      "name": "Create Henley S1 Checklist",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        620,
+        880
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4625028683",
+        "groupId": "topics",
+        "name": "={{ $node['Get the Notification Item from Schedule Board'].json.name }}",
+        "additionalFields": {}
+      },
+      "id": "5d555d02-74c7-4a60-a64c-e7dbe4d785f2",
+      "name": "Create Henley S2 Checklist",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        620,
+        1060
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "errorMessage": "={{ \n\"Scheduling Notification - Incorrect Stage Column Value\" &&  $node['Get the Notification Item from Schedule Board'].json.name \n\n}}"
+      },
+      "id": "b05221e4-0273-49c7-bbb6-811c32e9354b",
+      "name": "Stop and Error",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        620,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "4324047040",
+        "itemId": "={{ $node.Webhook.json.body.event.pulseId }}",
+        "columnValues": "{\"connect_boards5\":{\"item_ids\":[4686371857]}}"
+      },
+      "id": "5cf7c943-3f23-41a2-9cab-14c8bab53302",
+      "name": "2f Update Schedule Board Link to Checklist",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        980
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "/*let testingID = $node[\"Create Henley S1 Checklist\"].json.id;\n//return {testingID};\nlet testingvar = pasrseInt(testingID);\nreturn {testingvar};\n*/\nconst checklistItemID = [$node[\"Create Henley S1 Checklist\"].json.id];\n\nconst outuputJSON =  {connect_boards5:{item_ids:checklistItemID}};\n\nconst linkJSON = JSON.stringify(outuputJSON);\n\nreturn { linkJSON };\n\n// ERROR ... quotes around the ID .... {\"board_relation3\":{\"item_ids\":[\"4431037460\"]}}\n// Correct Format \"board_relation3\":{\"item_ids\":[4431037460]}"
+      },
+      "id": "83d22f7a-e6e2-4143-81da-de2f5866e32f",
+      "name": "2f Construct JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        820,
+        880
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const checklistItemID = [$node[\"Create Henley S2 Checklist\"].json.id];\n\nconst outuputJSON =  {board_relation7:{item_ids:checklistItemID}};\n\nconst linkJSON = JSON.stringify(outuputJSON);\n\nreturn { linkJSON };\n\n// ERROR ... quotes around the ID .... {\"board_relation3\":{\"item_ids\":[\"4431037460\"]}}\n// Correct Format \"board_relation3\":{\"item_ids\":[4431037460]}"
+      },
+      "id": "ed14f215-f266-4678-a5f7-96de7fc6247b",
+      "name": "2f Construct JSON1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        820,
+        1060
+      ],
+      "alwaysOutputData": false,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {},
+      "id": "49385c0b-fde2-4a8d-b6b1-000f0331306d",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        1260,
+        980
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-06-15T02:56:27.929Z",
+      "updatedAt": "2023-06-15T02:56:27.929Z",
+      "id": "2",
+      "name": "DEV"
+    },
+    {
+      "createdAt": "2023-06-22T00:38:53.196Z",
+      "updatedAt": "2023-06-22T00:38:53.196Z",
+      "id": "4",
+      "name": "Scheduling"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-22T07:00:20.000Z",
+  "versionId": "55e292b2-c1f8-4d1c-904b-8f3009eaed2f"
+}
