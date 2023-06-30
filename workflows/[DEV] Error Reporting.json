@@ -33,6 +33,17 @@
           }
         ]
       ]
+    },
+    "Update Error Record": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2023-06-15T06:40:24.735Z",
@@ -108,6 +119,48 @@
         1460,
         520
       ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C05DVHWR1A7",
+          "mode": "list",
+          "cachedResultName": "clean_energy_direct"
+        },
+        "text": "=****** CED ERRORR **************************************************************************************\n{{ Object.keys($node[\"Error Trigger\"].json[\"execution\"]).join(', ') }}\n{{ Object.values($node[\"Error Trigger\"].json[\"execution\"]).join(', ') }}\n\n{{ Object.keys($node[\"Error Trigger\"].json[\"workflow\"]).join(', ') }}\n{{ Object.values($node[\"Error Trigger\"].json[\"workflow\"]).join(', ') }}\n********************************************************************************************************\n********************************************************************************************************\n\n",
+        "otherOptions": {}
+      },
+      "id": "8c8e58d7-85ac-4468-911a-098712e71c3a",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1900,
+        520
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "8",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Changes\n**29 Jun 23**  Added slack message",
+        "width": 487
+      },
+      "id": "4c26edbb-895d-47a4-93ac-6ecb45386374",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        620,
+        700
+      ]
     }
   ],
   "pinData": {},
@@ -115,6 +168,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2023-06-16T07:51:42.000Z",
-  "versionId": "416c5954-246f-484b-be36-250340316a8e"
+  "updatedAt": "2023-06-29T03:08:19.000Z",
+  "versionId": "efa95ebe-c3cc-4969-ae8c-e2f91c963143"
 }
