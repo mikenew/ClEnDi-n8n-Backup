@@ -1,0 +1,173 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Error Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Error Record": {
+      "main": [
+        [
+          {
+            "node": "JSON Update Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Update Code": {
+      "main": [
+        [
+          {
+            "node": "Update Error Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Error Record": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-15T06:40:24.735Z",
+  "id": "36",
+  "name": "[PROD] Error Reporting",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "cec9d2da-9a38-437d-b20e-e0ee266ee4f4",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4439036602",
+        "groupId": "new_group73310",
+        "name": "={{ $now  && \"---\" && $json.execution.id && \"---\" && $json.execution.lastNodeExecuted }}",
+        "additionalFields": {}
+      },
+      "id": "63b90f42-f052-4392-a4a4-57cc871eedca",
+      "name": "Create Error Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "4439036602",
+        "itemId": "={{ $node['Create Error Record'].json.id }}",
+        "columnValues": "={{ $json.column_update_json }}"
+      },
+      "id": "dc2bcac6-a065-41df-8e6a-4be7e061dc8c",
+      "name": "Update Error Record",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        520
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "var outuputJSON = {};\n\noutuputJSON[\"exec_link\"] = $node[\"Error Trigger\"].json[\"execution\"][\"url\"];\n// NO RETRY outuputJSON[\"numbers\"] = $node[\"Error Trigger\"].json[\"execution\"][\"retryOf\"].replace(/[^0-9]/g, '');\n\noutuputJSON[\"text69\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"name\"];\noutuputJSON[\"text5\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"message\"];\noutuputJSON[\"text8\"] = $node[\"Error Trigger\"].json[\"execution\"][\"error\"][\"stack\"];\n\noutuputJSON[\"text6\"] = $node[\"Error Trigger\"].json[\"execution\"][\"lastNodeExecuted\"];\noutuputJSON[\"text4\"] = $node[\"Error Trigger\"].json[\"execution\"][\"mode\"];\noutuputJSON[\"text86\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"id\"];\noutuputJSON[\"text_1\"] = $node[\"Error Trigger\"].json[\"workflow\"][\"name\"];\noutuputJSON[\"status_17\"] = \"Yes\";\n\nlet column_update_json = JSON.stringify(outuputJSON);\n\nreturn {\n  column_update_json\n};\n"
+      },
+      "id": "4e4ae669-cbdc-4016-9480-f280fab31a53",
+      "name": "JSON Update Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C05DVHWR1A7",
+          "mode": "list",
+          "cachedResultName": "clean_energy_direct"
+        },
+        "text": "=****** CED ERRORR **************************************************************************************\n{{ Object.keys($node[\"Error Trigger\"].json[\"execution\"]).join(', ') }}\n{{ Object.values($node[\"Error Trigger\"].json[\"execution\"]).join(', ') }}\n\n{{ Object.keys($node[\"Error Trigger\"].json[\"workflow\"]).join(', ') }}\n{{ Object.values($node[\"Error Trigger\"].json[\"workflow\"]).join(', ') }}\n********************************************************************************************************\n********************************************************************************************************\n\n",
+        "otherOptions": {}
+      },
+      "id": "8c8e58d7-85ac-4468-911a-098712e71c3a",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        1900,
+        520
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "8",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Changes\n**29 Jun 23**  Added slack message",
+        "width": 487
+      },
+      "id": "4c26edbb-895d-47a4-93ac-6ecb45386374",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        620,
+        700
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-07-01T05:03:03.000Z",
+  "versionId": "46d55611-4dec-4ea8-ba09-a191a5b4cce5"
+}
