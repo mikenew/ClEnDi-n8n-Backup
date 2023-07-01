@@ -1,0 +1,523 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set Board IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Create Item in DES Board",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Source Item Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Destination Board": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Item in DES Board": {
+      "main": [
+        [
+          {
+            "node": "GET Destination Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Board IDs": {
+      "main": [
+        [
+          {
+            "node": "Get Source Board Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET ALL Source Board Items": {
+      "main": [
+        [
+          {
+            "node": "Source Item Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Source Board Name": {
+      "main": [
+        [
+          {
+            "node": "GET ALL Source Board Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Destination Item": {
+      "main": [
+        [
+          {
+            "node": "JSON Destination Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Source Item Batch": {
+      "main": [
+        [
+          {
+            "node": "Search Destination Board",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "END - Do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Destination Update": {
+      "main": [
+        [
+          {
+            "node": "Update Destination Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Destination Data": {
+      "main": [
+        [
+          {
+            "node": "Source Item Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Destination Columns": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2023-05-07T12:13:03.848Z",
+  "id": "28",
+  "name": "[DEV Mike] Transfer Data from One Board to Another",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "7639f08e-7dc0-4d5d-9b8d-0a7d707521ef",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Search Destination Board\"].json[\"name\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "8452f41d-24e8-4f05-a643-3f307dc2eb9d",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "={{ $node['Set Board IDs'].json.destinationBoard }}",
+        "columnId": "name",
+        "columnValue": "={{ $json.name }}",
+        "limit": 1
+      },
+      "id": "206728b8-432f-4c32-89da-757f1f6fcdaf",
+      "name": "Search Destination Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        280
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "={{ $node['Set Board IDs'].json.destinationBoard }}",
+        "groupId": "new_group32873",
+        "name": "={{ $node['Source Item Batch'].json.name }}",
+        "additionalFields": {}
+      },
+      "id": "eb18ddca-0903-4bb0-a6dc-db9f33505077",
+      "name": "Create Item in DES Board",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2900,
+        440
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Not Supported Column and Skipped",
+        "height": 80,
+        "width": 745.4088050314466
+      },
+      "id": "f1521456-f72a-45f4-b025-f42ed1d33df7",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Creates a new Record in B2 if not in B1 and copies data",
+        "height": 93.0625,
+        "width": 1054.3125
+      },
+      "id": "15466190-15e9-487d-8c66-0fdcf922642b",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Board ID's\n**BMaster** 3729016273\n**B1** \n**B2** \n**B3** \n**B4** \n**B5** \n**B6** \n**B7** 3613908851\n**B8** 3613911341\n**B9** \n",
+        "height": 277.5
+      },
+      "id": "7537892a-c165-4d36-8fc1-0e7f0a35bab6",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "sourceBoard",
+              "value": "3613911341"
+            },
+            {
+              "name": "destinationBoard",
+              "value": "3729016273"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1465ff84-5ce0-4860-9557-3ad5b76b0808",
+      "name": "Set Board IDs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2140,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getAll",
+        "boardId": "={{ $node['Set Board IDs'].json.sourceBoard }}",
+        "groupId": "topics",
+        "returnAll": true
+      },
+      "id": "4bd63c13-c789-4e7b-b714-d3e0c8db8226",
+      "name": "GET ALL Source Board Items",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        60
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "boardId": "={{ $json.sourceBoard }}"
+      },
+      "id": "54a3407b-9a95-486b-817c-c77196071dcc",
+      "name": "Get Source Board Name",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        60
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## To Do\n1. Destination Group is hardwired\n2. In Master Board - Stage Column must be set manually in the board",
+        "width": 648.75
+      },
+      "id": "1d3e1604-91c0-4f63-ac51-a0ebf96c7747",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        840
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "20e80a67-2eab-4dc2-86a0-fe607c46c183",
+      "name": "END - Do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardColumn",
+        "operation": "getAll",
+        "boardId": "= {{ $node['Set Board IDs'].json.sourceBoard }}"
+      },
+      "id": "cab151f9-b44e-48fa-ad46-2ebcd0f8c6a9",
+      "name": "GET Destination Columns",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3440,
+        -20
+      ],
+      "executeOnce": true,
+      "retryOnFail": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Update the Destination Data",
+        "height": 247.5,
+        "width": 465
+      },
+      "id": "b0f8ba8e-df6a-4d19-8ea5-9167442358fe",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3380,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Create Destination Item",
+        "height": 244.375,
+        "width": 482.1875
+      },
+      "id": "34e8f02e-b435-4add-83c8-e04a726c82b2",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        387.5
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Get the Source and Destination Data",
+        "height": 244.375,
+        "width": 836.875
+      },
+      "id": "9a282843-7ef2-4a76-b70b-4a0727baa5c3",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "={{ $json.id }}"
+      },
+      "id": "a2fa9b68-1423-4db3-a356-0404e89a7d7a",
+      "name": "GET Destination Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        440
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {
+          "reset": "false"
+        }
+      },
+      "id": "696df7ed-17f5-4c4d-bb08-b3b2068e54c8",
+      "name": "Source Item Batch",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        300
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const sourceBoardColumns = $node[\"Source Item Batch\"].json;\nconst targetBoardColumns = $node[\"GET Destination Item\"].json;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
+      },
+      "id": "44c5d665-bc86-4d00-b53e-17fa806c4307",
+      "name": "JSON Destination Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        3420,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "={{ $node['Set Board IDs'].json.destinationBoard }}",
+        "itemId": "={{ $node[\"GET Destination Item\"].json[\"id\"] }}",
+        "columnValues": "={{ $json[\"json_update_code\"] }}"
+      },
+      "id": "1d9191e1-cfec-4e0b-841c-52fc9e0e21f7",
+      "name": "Update Destination Data",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3640,
+        560
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-01T07:30:00.000Z",
+  "versionId": "812ad5c6-d135-4e44-ade1-5fcf70769717"
+}
