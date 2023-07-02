@@ -1,0 +1,309 @@
+{
+  "active": true,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set Board IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Board IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Board IDs": {
+      "main": [
+        [
+          {
+            "node": "Create Defect Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Defect Item": {
+      "main": [
+        [
+          {
+            "node": "GET New Defect Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET New Defect Item": {
+      "main": [
+        [
+          {
+            "node": "JSON New Defect Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON New Defect Update": {
+      "main": [
+        [
+          {
+            "node": "Update New Defect Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-02T01:58:02.024Z",
+  "id": "39",
+  "name": "[PROD] Log Deleted Master Record",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ae0c614d-038a-4668-ade4-cbec7f250a83",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Log Deleted Master Item\n## When a master record is deleted a Webhook calls this workflow which logs the record deleted into the Defect Board",
+        "height": 157.42951739705066,
+        "width": 1054.3125
+      },
+      "id": "da536b48-81d9-40f3-a59e-d69197215961",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "testSourceBoard8",
+              "value": "3613911341"
+            },
+            {
+              "name": "masterBoard",
+              "value": "3729016273"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c18354d9-29f7-4f1e-9389-af0d9c192e8d",
+      "name": "Set Board IDs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## To Do\nNIL",
+        "width": 648.75
+      },
+      "id": "0180df2f-4290-46dc-b1bb-019baeb166a4",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2760,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Create New Defect Item",
+        "height": 244.375,
+        "width": 482.1875
+      },
+      "id": "96a3e7db-1504-4529-86ca-ab156a3353d9",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2180,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "58eec2c1-4437-419f-800c-bc1c86309c6c",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Update New Defect Item",
+        "height": 241.88763788303442,
+        "width": 494.13404860252047
+      },
+      "id": "31fde65c-fb93-4fd9-821d-3d542dd8781d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2760,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b7b63e62-0167-4a5b-86f3-3f9de0acf118",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "73d491e7-9a11-4156-a9ab-7bd16482273f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        140
+      ],
+      "webhookId": "b7b63e62-0167-4a5b-86f3-3f9de0acf118"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4439036602",
+        "groupId": "new_group91150",
+        "name": "={{ $node.Webhook.json.body.event.itemName }}",
+        "additionalFields": {
+          "columnValues": ""
+        }
+      },
+      "id": "8bc30aa7-9180-4c29-878c-5dc8e51ae546",
+      "name": "Create Defect Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        200
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "={{ $json.id }}"
+      },
+      "id": "75925678-4bac-4093-9093-421b32aea35c",
+      "name": "GET New Defect Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        200
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "var outuputJSON = {};\n// const targetBoardColumns = $node[\"GET Destination Item\"].json;\n\n// Logging\n//console.log(\"Mike ****************************\");\n\n// Add the Defect Information\noutuputJSON[\"numbers2\"] = $node[\"Webhook\"].json.body.event.itemId;      // Item ID\noutuputJSON[\"text69\"] = \"Deleted Master Record\";                                 // Error Name\noutuputJSON[\"text5\"] = \"UserID: \" + $node[\"Webhook\"].json.body.event.userId.toString();       // Error Message\noutuputJSON[\"text5\"] += \"    Trigger Time: \" + $node[\"Webhook\"].json.body.event.triggerTime; \noutuputJSON[\"text5\"] += \"    Trigger UUID: \" + $node[\"Webhook\"].json.body.event.triggerUuid; \n\n\n// Format and return\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n\n\n\n\n/*\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n*/\n"
+      },
+      "id": "5d4083a2-1511-4bc7-a4cf-72864c68dc03",
+      "name": "JSON New Defect Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "4439036602",
+        "itemId": "={{ $node['GET New Defect Item'].json.id }}",
+        "columnValues": "={{ $json.json_update_code }}"
+      },
+      "id": "0b69e0ac-b6b2-4618-afa7-52651aad4f40",
+      "name": "Update New Defect Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3020,
+        200
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-06-15T06:31:40.563Z",
+      "updatedAt": "2023-06-15T06:31:40.563Z",
+      "id": "3",
+      "name": "PROD"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-02T02:36:00.000Z",
+  "versionId": "9a64f1ca-80a0-4c72-8276-feaf0ede8a20"
+}
