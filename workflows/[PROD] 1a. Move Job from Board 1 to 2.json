@@ -131,7 +131,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Run n8n Copy Updates to Master Worflow",
             "type": "main",
             "index": 0
           }
@@ -191,6 +191,8 @@
         1920,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -214,6 +216,8 @@
         2860,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -235,6 +239,8 @@
         2140,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -258,33 +264,14 @@
         1700,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
           "name": "Monday.com - Clean Energy Direct"
         }
       }
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "value": "={{ \nJSON.stringify(\n  {\n    \"text\"     :$node[\"Get Board #1 Item\"].json[\"column_values\"][1][\"value\"],        \n    \"numbers\"  :$node[\"Get Board #1 Item\"].json[\"column_values\"][19][\"value\"].replace(/[^0-9]/g, ''),\n    \"board_relation9\"  : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][17][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n    \"numeric\"  :$node[\"Get Board #1 Item\"].json[\"column_values\"][19][\"value\"].replace(/[^0-9]/g, ''),\n    \"numbers6\" :$node[\"Get Board #1 Item\"].json[\"column_values\"][19][\"value\"].replace(/[^0-9]/g, ''),\n    \"board_relation\" : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][23][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n    \"numbers1\" :$node[\"Get Board #1 Item\"].json[\"column_values\"][19][\"value\"].replace(/[^0-9]/g, ''),\n\t\"status54\": {\n\t\t        \"label\": $node[\"Get Board #1 Item\"].json[\"column_values\"][27][\"text\"]\n\t            },\n\t\"status31\": {\n\t\t        \"label\": $node[\"Get Board #1 Item\"].json[\"column_values\"][28][\"text\"]\n\t            },\n    \"connect_boards6\" : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][38][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n    \"connect_boards9\" : {\"item_ids\":[JSON.parse($node[\"Get Board #1 Item\"].json[\"column_values\"][10][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n\n\n    \"date4\": {\n\t\t    \"date\": $node[\"Get Board #1 Item\"].json[\"column_values\"][3][\"text\"]\n\t        }\n    }\n )\n\n/*\n * List of columns in Board #2 that need to be updated from Board #1\n *\n * COLUMN NAME                  B#2 COLUMN ID            B#1 COLUMN #\n * Henley PO #                  text                          1\n * # Panels                     numbers                      19\n * Panel Brand                  board_relation9              17        \n * Panel Model                  mirror0\n * Inverter Kw                  numeric\n * # Inverters                  numbers6\n * Inverter Brand               board_relation\n * Inverter Model               mirror5\n * Property Phase               numbers1\n * Roof Type                    status54                     27\n * Stories                      status31                     28\n * Optional Extras              connect_boards6              38\n * Supervisor                   connect_boards9              10\n * Requested Date               date4                          4           Install Requested\n */\n\n}}\n"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "c68f6b5e-45b1-482a-8c36-0f130a581067",
-      "name": "Construct JSON Update",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        2660,
-        -20
-      ]
     },
     {
       "parameters": {
@@ -300,6 +287,8 @@
         2980,
         560
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -337,6 +326,8 @@
         2340,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -360,6 +351,8 @@
         2160,
         560
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -398,6 +391,8 @@
         2380,
         560
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -434,6 +429,8 @@
         2780,
         560
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -474,13 +471,15 @@
         "options": {}
       },
       "id": "5895fc6c-43bf-4b67-a67c-41519e2d4f8a",
-      "name": "HTTP Request",
+      "name": "Run n8n Copy Updates to Master Worflow",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
         3160,
         560
-      ]
+      ],
+      "notesInFlow": true,
+      "notes": "https://cleanenergydirect.app.n8n.cloud/workflow/30"
     }
   ],
   "pinData": {},
@@ -492,6 +491,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:21:52.000Z",
-  "versionId": "50dab60f-b342-4704-a63f-e9a2dff301b1"
+  "updatedAt": "2023-07-03T03:55:00.000Z",
+  "versionId": "0a0113da-a7dc-4aa5-8c11-24e341d5a8be"
 }
