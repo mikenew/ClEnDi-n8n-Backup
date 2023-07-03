@@ -347,6 +347,17 @@
           }
         ]
       ]
+    },
+    "ERROR1": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2023-01-30T05:53:59.953Z",
@@ -459,6 +470,8 @@
         1700,
         320
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -482,6 +495,8 @@
         3040,
         620
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -505,6 +520,8 @@
         3040,
         440
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -595,6 +612,8 @@
         3040,
         260
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -618,6 +637,8 @@
         3040,
         80
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -757,6 +778,8 @@
         3060,
         800
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -846,6 +869,8 @@
         2540,
         -240
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -1023,6 +1048,8 @@
         2840,
         1160
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -1074,6 +1101,19 @@
         1260,
         960
       ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error in Change column ... Column Type unknown"
+      },
+      "id": "5e5069e4-0232-42e1-92b2-1d4f5f6e9169",
+      "name": "Stop and Error",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3060,
+        1000
+      ]
     }
   ],
   "pinData": {},
@@ -1086,6 +1126,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:53:26.000Z",
-  "versionId": "239e0e3a-2b36-47d6-ab79-8324fe34b8d6"
+  "updatedAt": "2023-07-03T04:17:27.000Z",
+  "versionId": "6078eb0b-c10d-4ca7-b73e-75c2b5f4148f"
 }
