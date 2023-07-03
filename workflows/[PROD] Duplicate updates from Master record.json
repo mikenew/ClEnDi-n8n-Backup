@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Code1",
+            "node": "Copy Updates Code",
             "type": "main",
             "index": 0
           }
@@ -28,8 +28,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1180,
-        0
+        620,
+        -240
       ]
     },
     {
@@ -43,8 +43,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1180,
-        360
+        620,
+        120
       ]
     },
     {
@@ -65,19 +65,6 @@
     },
     {
       "parameters": {
-        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\n//let s = $(\"start\").first().json.source_item_id;\n//let t = $(\"start\").first().json.target_item_id;\n\nlet s = parseInt($('Webhook').first().json.query.source_item_id);\nlet t = parseInt($('Webhook').first().json.query.target_item_id);\n\nlet sourceUpdates, targetUpdates;\n\nasync function init() {\n  await getUpdates(s,\"s\");\n  await getUpdates(t,\"t\");\n  \n  \n  targetUpdates.forEach((u) => {\n   delUpdates(u.id);\n});\n\n    sourceUpdates.forEach((u) => {\n   addUpdate(u.text_body,t);\n});\n  \n}\n\nawait init();\n\nreturn sourceUpdates;\n\n//getItemUpdates(4415379740);\n//up.forEach((u)=>{ console.log(u) });\n\n//////////////////////////////////////////////////////////////////////////\nfunction getUpdates(pulse,result) {\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `query {   items (ids:[${pulse}]  ) {     updates {       text_body   id  }   } }`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body);\n        //console.log(JSON.stringify(res, null, 2));\n\n        let updates = res.data.items[0].updates;\n        if(result==\"s\"){ sourceUpdates = updates; }\n         if(result==\"t\"){ targetUpdates = updates; }\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n/////////////////////////////////////////////////////////////\n\nfunction delUpdates(id) {\n   console.log(\"delUpdates called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `mutation { delete_update (id: ${id}) { id }}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n//////////////////////////////////////////////\n\nfunction addUpdate(text,pulse) {\n   console.log(\"addUpdate called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n  let query = `mutation {create_update (item_id: ${pulse}, body: \"${text}\") { id }}`;\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n"
-      },
-      "id": "752b2b23-2891-458e-ac2b-338b184e80e2",
-      "name": "Code1",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        280,
-        -260
-      ]
-    },
-    {
-      "parameters": {
         "content": "## Primary Workflow all in Code\nThere is also a backup that works in workflow 32\nBoth completed by Adbur 29 May 2023",
         "width": 489.1124312757873
       },
@@ -89,6 +76,21 @@
         100,
         -80
       ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let key =\n  \"eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjI1NDk5NTYyMywiYWFpIjoxMSwidWlkIjoyNDU1MDg0NSwiaWFkIjoiMjAyMy0wNS0wOFQwMDo0NzoyMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6OTg3MzI3OSwicmduIjoidXNlMSJ9.-8cMKY_XcE2aoCXOsBn4J8hu4XBaxbIcKsTCti8p3QU\";\n\n//let s = $(\"start\").first().json.source_item_id;\n//let t = $(\"start\").first().json.target_item_id;\n\nlet s = parseInt($('Webhook').first().json.query.source_item_id);\nlet t = parseInt($('Webhook').first().json.query.target_item_id);\n\nlet sourceUpdates, targetUpdates;\n\nasync function init() {\n  await getUpdates(s,\"s\");\n  await getUpdates(t,\"t\");\n  \n  \n  targetUpdates.forEach((u) => {\n   delUpdates(u.id);\n});\n\n    sourceUpdates.forEach((u) => {\n   addUpdate(u.text_body,t);\n});\n  \n}\n\nawait init();\n\nreturn sourceUpdates;\n\n//getItemUpdates(4415379740);\n//up.forEach((u)=>{ console.log(u) });\n\n//////////////////////////////////////////////////////////////////////////\nfunction getUpdates(pulse,result) {\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `query {   items (ids:[${pulse}]  ) {     updates {       text_body   id  }   } }`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        res = JSON.parse(body);\n        //console.log(JSON.stringify(res, null, 2));\n\n        let updates = res.data.items[0].updates;\n        if(result==\"s\"){ sourceUpdates = updates; }\n         if(result==\"t\"){ targetUpdates = updates; }\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n/////////////////////////////////////////////////////////////\n\nfunction delUpdates(id) {\n   console.log(\"delUpdates called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n    let query = `mutation { delete_update (id: ${id}) { id }}`;\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n\n//////////////////////////////////////////////\n\nfunction addUpdate(text,pulse) {\n   console.log(\"addUpdate called\");\n  return new Promise((resolve, reject) => {\n    const request = require(\"request\");\n\n  let query = `mutation {create_update (item_id: ${pulse}, body: \"${text}\") { id }}`;\n\n\n    const options = {\n      url: \"https://api.monday.com/v2\",\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        Authorization: key,\n      },\n      body: JSON.stringify({query}),\n    };\n\n    request(options, (error, response, body) => {\n      if (!error && response.statusCode === 200) {\n        // console.log(body.data);\n        const res = JSON.parse(body);\n        console.log(res);\n        //console.log(updates);\n        resolve();\n      } else {\n        reject(\"Error: Something went wrong!\");\n      }\n    }); //request() end\n  }); //promise end\n}\n"
+      },
+      "id": "752b2b23-2891-458e-ac2b-338b184e80e2",
+      "name": "Copy Updates Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -260
+      ],
+      "retryOnFail": true,
+      "maxTries": 5
     }
   ],
   "pinData": {},
@@ -100,6 +102,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:25:22.000Z",
-  "versionId": "bb8cf1e7-00ec-4c35-b715-9b0ca4decc5d"
+  "updatedAt": "2023-07-03T03:56:29.000Z",
+  "versionId": "0cfeaf3a-1906-41c3-aaec-6b208a1982fc"
 }
