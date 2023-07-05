@@ -194,41 +194,6 @@
     },
     {
       "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "value": "={{ \n   JSON.stringify(\n     {\n       \"text\"     :$node[\"Get Board #4 Item\"].json[\"column_values\"][1][\"value\"],\n       \"text72\"   :$node[\"Get Board #4 Item\"].json[\"column_values\"][3][\"value\"],\n       \"date4\"    :$node[\"Get Board #4 Item\"].json[\"column_values\"][4][\"text\"],\n       \"no_inverters\"  :$node[\"Get ALL JOBS Item\"].json[\"column_values\"][23][\"value\"].replace(/[^0-9]/g, ''),\n       \"numeric7\"  :$node[\"Get Board #4 Item\"].json[\"column_values\"][7][\"value\"].replace(/[^0-9]/g, ''),\n\n\n       \"board_relation1\" : {\"item_ids\":[JSON.parse($node[\"Get Board #4 Item\"].json[\"column_values\"][10][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n       \"numeric\"   :$node[\"Get Board #4 Item\"].json[\"column_values\"][9][\"value\"].replace(/[^0-9]/g, '')\n\n})\n\n/*\n    Outstanding: \n         1. The Optional Extras multi Select\n*/\n\n/*\n * List of columns in Board #3 that need to be updated from Board #1\n *\n * B#3 COLUMN NAME              B#3 COLUMN ID            B#2 COLUMN #       B#2 COLUMN\n * Henley PO #                  text2                          1\n * Requested Date               date59                         19\n * Install Windoe\n * # Panels\n * Panel Model\n * Panel Brand\n * Inverter KW\n * Supervisor \n * Optional Extras\n */\n\n}}\n"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "ad66189e-6f9d-42c2-8ed4-2fd0889c0c34",
-      "name": "Construct JSON Update",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        2520,
-        60
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "let data = $node[\"Get Board #2 Item\"].json[\"column_values\"][13][\"value\"];\n//return {data};\nlet dependencyList = data.linkedPulseIds.map(u => u.linkedPulseId);\nreturn dependencyList;\nlet json_result = '{\"' +  $node[\"Get B#All_Jobs Column ID\"].json[\"all_jobs_column_changed_id\"];\njson_result += '\": {\"item_ids\":[' + dependencyList.join(\",\");\n\n\njson_result += ']} }';\n\nreturn {json_result};"
-      },
-      "id": "26154556-9d6a-4e71-b7f0-32b68e42e190",
-      "name": "Optional Extras JSON",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        2740,
-        60
-      ],
-      "notesInFlow": true
-    },
-    {
-      "parameters": {
         "content": "## Outstanding\n**1** Inverter Brand -  ALL Jobs 24 - B5 board_relation\n**2** Optional Extras - ALL JOBS 38 - B5 connect_boards6\n**3** Supervisor -      ALL JOBS 11 - B5 connect_boards",
         "width": 702.9689023272352
       },
@@ -506,7 +471,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://cleanenergydirect.app.n8n.cloud/webhook-test/17046e5b-65fc-4887-891e-4afddfcb972b",
+        "url": "https://cleanenergydirect.app.n8n.cloud/webhook/17046e5b-65fc-4887-891e-4afddfcb972b",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -541,6 +506,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:24:28.000Z",
-  "versionId": "405ed0ce-db22-4e4e-8b2d-c2106272717c"
+  "updatedAt": "2023-07-05T02:00:32.000Z",
+  "versionId": "7176c0d1-3d83-4a45-82bc-b0dc83c22ae2"
 }
