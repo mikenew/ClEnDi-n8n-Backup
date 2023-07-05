@@ -174,33 +174,14 @@
         2720,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
           "name": "Monday.com - Clean Energy Direct"
         }
       }
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
-            {
-              "value": "={{ \n   JSON.stringify(\n     {\n       \"text2\"     :$node[\"Get Board #3 Item\"].json[\"column_values\"][1][\"text\"],\n       \"text53\"     :$node[\"Get Board #3 Item\"].json[\"column_values\"][5][\"text\"],\n       \"date23\"    :$node[\"Get Board #3 Item\"].json[\"column_values\"][3][\"text\"],\n       \"numeric\"   :$node[\"Get Board #3 Item\"].json[\"column_values\"][12][\"value\"].replace(/[^0-9]/g, '')\n})\n\n/*\n\n       \"numeric1\"  :$node[\"Get Board #3 Item\"].json[\"column_values\"][3][\"value\"].replace(/[^0-9]/g, ''),\n       \"board_relation2\" : {\"item_ids\":[JSON.parse($node[\"Get Board #3 Item\"].json[\"column_values\"][4][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n,\n       \"connect_boards\" : {\"item_ids\":[JSON.parse($node[\"Get Board #3 Item\"].json[\"column_values\"][16][\"value\"]).linkedPulseIds[0].linkedPulseId]},\n       \"connect_boards21\" : {\"item_ids\":[JSON.parse($node[\"Get Board #3 Item\"].json[\"column_values\"][13][\"value\"]).linkedPulseIds[0].linkedPulseId]}\n     }\n*/\n/*\n    Outstanding: \n         1. ???????????\n*/\n\n/*\n * List of columns in Board #3 that need to be updated from Board #1\n *\n * B#3 COLUMN NAME              B#3 COLUMN ID            B#2 COLUMN #       B#2 COLUMN\n * Henley PO #                  text2                          1\n * Requested Date               date59                         19\n * Install Windoe\n * # Panels\n * Panel Model\n * Panel Brand\n * Inverter KW\n * Supervisor \n * Optional Extras\n */\n\n}}\n"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "83e34e89-1bdc-40d5-9e4d-f367281bec87",
-      "name": "Construct JSON Update",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        2340,
-        140
-      ]
     },
     {
       "parameters": {
@@ -249,6 +230,7 @@
       ],
       "alwaysOutputData": true,
       "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -272,6 +254,8 @@
         1920,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -293,6 +277,8 @@
         2140,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -314,6 +300,8 @@
         2940,
         520
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -354,6 +342,8 @@
         2340,
         300
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -377,6 +367,8 @@
         2360,
         520
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -400,6 +392,8 @@
         2160,
         520
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -423,6 +417,8 @@
         2760,
         520
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
       "credentials": {
         "mondayComApi": {
           "id": "1",
@@ -459,7 +455,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://cleanenergydirect.app.n8n.cloud/webhook-test/17046e5b-65fc-4887-891e-4afddfcb972b",
+        "url": "https://cleanenergydirect.app.n8n.cloud/webhook/17046e5b-65fc-4887-891e-4afddfcb972b",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -494,6 +490,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:24:46.000Z",
-  "versionId": "acc0278a-6679-4897-8df7-de98175c9879"
+  "updatedAt": "2023-07-05T01:58:11.000Z",
+  "versionId": "b559f875-6694-4f3a-8c85-798dc19dd5bc"
 }
