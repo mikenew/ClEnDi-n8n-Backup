@@ -460,7 +460,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://cleanenergydirect.app.n8n.cloud/webhook-test/17046e5b-65fc-4887-891e-4afddfcb972b",
+        "url": "https://cleanenergydirect.app.n8n.cloud/webhook/17046e5b-65fc-4887-891e-4afddfcb972b",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -495,6 +495,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-06-16T07:22:39.000Z",
-  "versionId": "50796abe-70a1-4d9d-be87-20de8c6a5139"
+  "updatedAt": "2023-07-05T02:01:10.000Z",
+  "versionId": "ee6f851d-cd14-4b75-92bc-5f727b70e57a"
 }
