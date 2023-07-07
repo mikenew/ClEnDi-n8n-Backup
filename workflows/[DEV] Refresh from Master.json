@@ -1,0 +1,620 @@
+{
+  "active": true,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set Board IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Board IDs": {
+      "main": [
+        [
+          {
+            "node": "GET Target Board Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Master Item Exists": {
+      "main": [
+        [
+          {
+            "node": "JSON Master Item Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Master Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Master Item": {
+      "main": [
+        [
+          {
+            "node": "GET New Master Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET New Master Item": {
+      "main": [
+        [
+          {
+            "node": "JSON New Master Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update New Master Item": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Master Item Update": {
+      "main": [
+        [
+          {
+            "node": "Update Master Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON New Master Update": {
+      "main": [
+        [
+          {
+            "node": "Update New Master Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Board IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Target Board Name": {
+      "main": [
+        [
+          {
+            "node": "GET Master Item1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Master Item1": {
+      "main": [
+        [
+          {
+            "node": "GET Target Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Target Item": {
+      "main": [
+        [
+          {
+            "node": "IF Master Item Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-07T01:09:08.522Z",
+  "id": "40",
+  "name": "[DEV] Refresh from Master",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a62f120c-54fb-47b2-ae78-d3d0d4e7daad",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Refresh from Master\n## Updates the Master board will all the data from the initiating job board (boards Henley 1 to 9)\n## Creates a Master if it is not found",
+        "height": 157.42951739705066,
+        "width": 1129.3625243723786
+      },
+      "id": "24937b39-132e-4ca9-bd1d-2ee0a717b290",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Board ID's\n**BMaster** 3729016273\n**B1** \n**B2** \n**B3** \n**B4** \n**B5** \n**B6** \n**B7** 3613908851\n**B8** 3613911341\n**B9** \n",
+        "height": 277.5
+      },
+      "id": "32b1c4a4-9f2c-4528-9cf2-61ac6da0985b",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "testSourceBoard8",
+              "value": "3613911341"
+            },
+            {
+              "name": "masterBoard",
+              "value": "3729016273"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5b979b90-9950-45f6-b0d9-40be2749005e",
+      "name": "Set Board IDs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## To Do\nNIL",
+        "width": 648.75
+      },
+      "id": "32c552bb-ae83-422f-8237-b9e46db58dd9",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2760,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Update Existing Master Item",
+        "height": 247.5,
+        "width": 465
+      },
+      "id": "411bf793-40d0-4b14-8184-52c81ca1daf2",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Create New Master Item",
+        "height": 244.375,
+        "width": 482.1875
+      },
+      "id": "493ee3be-5a51-4aa2-b226-dac11e9e3204",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Get the Source and Target Data",
+        "height": 278.3956223028808,
+        "width": 874.9780969792267
+      },
+      "id": "059ae135-c856-467d-8f6d-455cefc15c4f",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "fc0c9ebb-4bda-4298-b262-13784740d8e6",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"GET Target Item\"].json[\"name\"] }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "a8529ef8-eb6f-4a70-8d71-a335f7c77281",
+      "name": "IF Master Item Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
+        "itemId": "={{ $node['GET Target Item'].json.id }}",
+        "columnValues": "={{ $json.json_update_code }}"
+      },
+      "id": "81f6b2e6-66f3-45cc-ab32-cbe2a90e5d29",
+      "name": "Update Master Data",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        500
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Update New Master Item",
+        "height": 241.88763788303442,
+        "width": 494.13404860252047
+      },
+      "id": "f649f9a7-45bb-43ef-88ce-af10cd77cbbd",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2780,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
+        "groupId": "new_group75714",
+        "name": "={{ $node['GET Master Item1'].json.name }}",
+        "additionalFields": {}
+      },
+      "id": "f5c9526b-1b65-4ef9-b2ff-81bfaf52d157",
+      "name": "Create Master Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        820
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "get",
+        "itemId": "={{ $json.id }}"
+      },
+      "id": "22f00b99-67d7-4341-8fe3-bf986c37cb45",
+      "name": "GET New Master Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2500,
+        820
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
+        "itemId": "={{ $node['GET New Master Item'].json.id }}",
+        "columnValues": "={{ $json[\"json_update_code\"] }}"
+      },
+      "id": "ea83787b-b3ac-4e14-b8a9-4664319e8c5b",
+      "name": "Update New Master Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        820
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "boardId": "4439036602",
+        "groupId": "new_group26932",
+        "name": "={{\"Missing Master - \" + $node['GET Target Board Name'].json.name + \" - \" +  $node['GET Master Item1'].json.name }}",
+        "additionalFields": {}
+      },
+      "id": "a9ba071c-0f9f-491f-96e4-e2de55d8072a",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        3420,
+        820
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Log Missing Master Defect",
+        "height": 233.77030225357143,
+        "width": 410.239159046703
+      },
+      "id": "11a4640c-333d-427d-b3ff-a094a1159d83",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3340,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item1\"].json;\nconst targetBoardColumns = $node[\"GET Target Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData !== undefined && bData != null && bData.linkedPulseIds != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
+      },
+      "id": "aa7b762e-b020-45aa-8c31-ae4476a05332",
+      "name": "JSON Master Item Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item1\"].json;\nconst targetBoardColumns = $node[\"GET New Master Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
+      },
+      "id": "f1563e50-9c66-47fa-84b5-19312ac77ee9",
+      "name": "JSON New Master Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Changes\n**1.**  7 Jul 2023 ... JSON Master Item Update\n.... Added code to handle empty board relations \n\n         ``outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };``",
+        "height": 593.9255954621175,
+        "width": 646.6346775085249
+      },
+      "id": "2e2d743d-ae5f-48c7-b75d-66bdf33b57cf",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3080,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "43614d5c-3475-4126-bc6a-041a8153c4cc",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "051d0b29-1d12-41b4-8d92-a076e11b4a9f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        140
+      ],
+      "webhookId": "43614d5c-3475-4126-bc6a-041a8153c4cc"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "boardId": "={{ $node.Webhook.json.body.event.boardId }}"
+      },
+      "id": "764b9340-c941-456f-bb43-e747cf0746aa",
+      "name": "GET Target Board Name",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        200
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "returnAll": true
+      },
+      "id": "38731b6f-d76c-4673-91f2-6577eecb4863",
+      "name": "GET Master Item1",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        200
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
+        "columnId": "name",
+        "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "returnAll": "=1"
+      },
+      "id": "185dc9e6-9dde-4e90-96e3-c48418003452",
+      "name": "GET Target Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        200
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      },
+      "continueOnFail": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "36"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-06-15T02:56:27.929Z",
+      "updatedAt": "2023-06-15T02:56:27.929Z",
+      "id": "2",
+      "name": "DEV"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-07T01:35:46.000Z",
+  "versionId": "2d466f9a-4386-4827-ab05-9de8dddef49c"
+}
