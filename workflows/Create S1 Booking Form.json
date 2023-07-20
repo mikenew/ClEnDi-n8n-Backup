@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Link Booking Form to Master",
+            "node": "Booking Form JSON",
             "type": "main",
             "index": 0
           }
@@ -132,6 +132,17 @@
         [
           {
             "node": "Get Item Board #Booking Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking Form JSON": {
+      "main": [
+        [
+          {
+            "node": "Link Booking Form to Master",
             "type": "main",
             "index": 0
           }
@@ -488,14 +499,14 @@
         "operation": "changeMultipleColumnValues",
         "boardId": "=4553360261",
         "itemId": "={{ $node['Create Item Board #Booking Form'].json.id }}",
-        "columnValues": "={{ JSON.stringify({\"connect_boards\":{ \"item_ids\": [$node['Get Board ALL JOBS Item'].json.name]} }) }}"
+        "columnValues": "={{ $json.bookingJSON }}"
       },
       "id": "a0a5f809-e13c-46e4-bbe5-d15b8502afbe",
       "name": "Link Booking Form to Master",
       "type": "n8n-nodes-base.mondayCom",
       "typeVersion": 1,
       "position": [
-        2580,
+        2800,
         300
       ],
       "credentials": {
@@ -504,6 +515,34 @@
           "name": "Monday.com - Clean Energy Direct"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "var outputJSON = {};\n\n// Set the Master Record \nconst masterID = +$node['Get Board ALL JOBS Item'].json.id.replace(/[^0-9]/g, '');\noutputJSON[\"connect_boards4\"] = { \"item_ids\": [masterID]};\n//console.log(outputJSON);\n\n// Set the Form's PO # \nconst poNumber = $node['Get Board #3 Item'].json.column_values[1].text;\noutputJSON[\"numbers\"] = poNumber;\n\n// Set the Customer\noutputJSON[\"text8\"] = \"Henley\";\n\n// Return the JSON\nlet bookingJSON = JSON.stringify(outputJSON);\nreturn { bookingJSON };\n\n\n/* #######################################################################################\n## JSON from move boards\n### {\"text2\":\"1111111\",\n### \"board_relation2\":{\"item_ids\":[3841069956]},\n### \"numeric\":\"\",\"numeric1\":\"\",\n### \"board_relation29\":{\"item_ids\":[3841069956]},\n### \"text\":\"222222\",\"board_relation294\":{\"item_ids\":[3841069956]},\n### \"text6\":\"3333333333\",\n### \"date53\":{},\n### \"date1\":{},\n### \"text8\":\"\",\n### \"text4\":\"\"}\n########################################################################################## */\n\n"
+      },
+      "id": "e1eedb14-c41d-4460-9073-376784fe2433",
+      "name": "Booking Form JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2580,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## JSON from move boards\n### {\"text2\":\"1111111\",\n### \"board_relation2\":{\"item_ids\":[3841069956]},\n### \"numeric\":\"\",\"numeric1\":\"\",\n### \"board_relation29\":{\"item_ids\":[3841069956]},\n### \"text\":\"222222\",\"board_relation294\":{\"item_ids\":[3841069956]},\n### \"text6\":\"3333333333\",\n### \"date53\":{},\n### \"date1\":{},\n### \"text8\":\"\",\n### \"text4\":\"\"}",
+        "height": 487.256487037536,
+        "width": 721.0106124129304
+      },
+      "id": "cca0d048-6128-4277-80f6-150bf4c24c5b",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3400,
+        -40
+      ]
     }
   ],
   "pinData": {},
@@ -515,6 +554,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-07-19T07:17:07.000Z",
-  "versionId": "a07a2190-0df0-4d66-92db-9b5945ceb7f5"
+  "updatedAt": "2023-07-20T06:24:34.000Z",
+  "versionId": "dd53cf98-d00a-4466-a396-e9315bb58335"
 }
