@@ -1,88 +1,11 @@
 {
   "active": true,
   "connections": {
-    "Transfer Column Data": {
-      "main": [
-        [
-          {
-            "node": "Update Stage to B2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get Board ALL JOBS Item": {
       "main": [
         [
           {
             "node": "Booking Form JSON",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Stage to B2": {
-      "main": [
-        [
-          {
-            "node": "Move to Group 2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Move to Group 2": {
-      "main": [
-        [
-          {
-            "node": "Get Today's Date",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Today's Date": {
-      "main": [
-        [
-          {
-            "node": "Update Completion Date",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Completion Date": {
-      "main": [
-        [
-          {
-            "node": "Delete Item Board #1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "JSON Master Update": {
-      "main": [
-        [
-          {
-            "node": "Transfer Column Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Delete Item Board #1": {
-      "main": [
-        [
-          {
-            "node": "Run n8n Copy Updates to Master Worflow",
             "type": "main",
             "index": 0
           }
@@ -171,54 +94,6 @@
     },
     {
       "parameters": {
-        "resource": "boardItem",
-        "operation": "changeMultipleColumnValues",
-        "boardId": "3753873737",
-        "itemId": "={{ $node[\"Get Item Board #Booking Form\"].json[\"id\"] }}",
-        "columnValues": "={{ $json[\"result\"] }}"
-      },
-      "id": "963f84c5-f90f-4c2d-82e4-7c136ad83307",
-      "name": "Transfer Column Data",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        1940,
-        560
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "delete",
-        "itemId": "={{ $node[\"Get Board #3 Item\"].json[\"id\"] }}"
-      },
-      "id": "669d72cb-6dfa-452b-abdb-81f810c5cdfd",
-      "name": "Delete Item Board #1",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2980,
-        560
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
         "content": "# Create Stage 1 Booking Form",
         "height": 80,
         "width": 563
@@ -259,31 +134,6 @@
     },
     {
       "parameters": {
-        "resource": "boardItem",
-        "operation": "changeMultipleColumnValues",
-        "boardId": "3729016273",
-        "itemId": "={{ $node[\"Get Board ALL JOBS Item\"].json[\"id\"] }}",
-        "columnValues": "={{\n  JSON.stringify({\"dup__of_load_1drive4\":\"2. Ready for Call up\"})\n}}"
-      },
-      "id": "71494527-e4a2-491c-9b39-6ccfe4cae7ed",
-      "name": "Update Stage to B2",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2160,
-        560
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
         "content": "## Process Flow Overview\n\n",
         "height": 231.95886970560537,
         "width": 567.9437012812813
@@ -293,115 +143,9 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2640,
-        -20
-      ]
-    },
-    {
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "move",
-        "boardId": "3729016273",
-        "itemId": "={{ $json[\"id\"] }}",
-        "groupId": "new_group95636"
-      },
-      "id": "f4566ce3-ed0f-494d-b2c4-a65eddc90f4e",
-      "name": "Move to Group 2",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2380,
-        560
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "var date_today = new Date().toISOString().slice(0, 10);\n\n//items[0].json.date_today = date;\n\nreturn {date_today};"
-      },
-      "id": "6aeefaba-0556-4f0d-a159-265849d95d89",
-      "name": "Get Today's Date",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        2580,
+        1500,
         560
       ]
-    },
-    {
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "changeMultipleColumnValues",
-        "boardId": "3729016273",
-        "itemId": "={{ $node[\"Move to Group 2\"].json[\"id\"] }}",
-        "columnValues": "={{ \n\n         JSON.stringify({\"date\":$node[\"Get Today's Date\"].json[\"date_today\"] })\n\n }}"
-      },
-      "id": "72240a85-808b-4f31-bcb8-ed21d9812fc8",
-      "name": "Update Completion Date",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2780,
-        560
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "//Master Board Column, Get Master Board Item\nvar masterBoardColumns = $node[\"Get Board ALL JOBS Item\"].json;\nvar targetBoardColumns = $node[\"Get Item Board #Booking Form\"].json;\n\n//If you want to ignore some columns you can add them over here. If not required, just use []\nvar ignoreColumnFromMaster = [];\nvar outuputJSON = {};\n\n// For all columns in the Master Board\n// \nmasterBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromMaster.includes(data.title)) {\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        outuputJSON[targetColumnId] = data.value ? (data.value.replace(/[^0-9]/g, '')) :\"\";\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet result = JSON.stringify(outuputJSON);\n\nreturn {\n  result\n};\n"
-      },
-      "id": "fb93cc12-f161-4d63-a332-1c9a34f87341",
-      "name": "JSON Master Update",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        1700,
-        560
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://cleanenergydirect.app.n8n.cloud/webhook/17046e5b-65fc-4887-891e-4afddfcb972b",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "source_item_id",
-              "value": "={{ $node[\"Get Board ALL JOBS Item\"].json[\"id\"] }}"
-            },
-            {
-              "name": "target_item_id",
-              "value": "={{ $node['Get Item Board #Booking Form'].json.id }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "c336e6f5-a777-42e7-b514-b5e6a9b9d1c9",
-      "name": "Run n8n Copy Updates to Master Worflow",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [
-        3160,
-        560
-      ],
-      "notesInFlow": true,
-      "notes": "https://cleanenergydirect.app.n8n.cloud/workflow/30"
     },
     {
       "parameters": {
@@ -531,17 +275,32 @@
     },
     {
       "parameters": {
-        "content": "## JSON from move boards\n### {\"text2\":\"1111111\",\n### \"board_relation2\":{\"item_ids\":[3841069956]},\n### \"numeric\":\"\",\"numeric1\":\"\",\n### \"board_relation29\":{\"item_ids\":[3841069956]},\n### \"text\":\"222222\",\"board_relation294\":{\"item_ids\":[3841069956]},\n### \"text6\":\"3333333333\",\n### \"date53\":{},\n### \"date1\":{},\n### \"text8\":\"\",\n### \"text4\":\"\"}",
-        "height": 487.256487037536,
-        "width": 721.0106124129304
+        "content": "## Create the booking form",
+        "height": 240.40353345318766,
+        "width": 427.6082447241049
       },
-      "id": "cca0d048-6128-4277-80f6-150bf4c24c5b",
+      "id": "932708fb-f3ad-441f-9355-4ed093ee2136",
       "name": "Sticky Note2",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3400,
-        -40
+        1880,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Update the booking form",
+        "height": 254.5094165151504,
+        "width": 429.01883303030115
+      },
+      "id": "244f94e4-9a9c-4837-84dc-b3deba5ee054",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        240
       ]
     }
   ],
@@ -554,6 +313,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2023-07-20T06:24:34.000Z",
-  "versionId": "dd53cf98-d00a-4466-a396-e9315bb58335"
+  "updatedAt": "2023-07-20T21:24:17.000Z",
+  "versionId": "60a6a9d0-1c8e-4e21-993b-218ca66dd8c2"
 }
