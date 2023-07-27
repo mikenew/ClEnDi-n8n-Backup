@@ -27,7 +27,7 @@
       "main": [
         [
           {
-            "node": "JSON Master Item Update",
+            "node": "JSON Target Item Update",
             "type": "main",
             "index": 0
           }
@@ -74,17 +74,6 @@
         ]
       ]
     },
-    "JSON Master Item Update": {
-      "main": [
-        [
-          {
-            "node": "Update Master Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "JSON New Master Update": {
       "main": [
         [
@@ -116,18 +105,7 @@
       "main": [
         [
           {
-            "node": "GET Master Item1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "GET Master Item1": {
-      "main": [
-        [
-          {
-            "node": "GET Target Item",
+            "node": "GET Master Item",
             "type": "main",
             "index": 0
           }
@@ -139,6 +117,28 @@
         [
           {
             "node": "IF Master Item Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Master Item": {
+      "main": [
+        [
+          {
+            "node": "GET Target Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Target Item Update": {
+      "main": [
+        [
+          {
+            "node": "Update Target Data",
             "type": "main",
             "index": 0
           }
@@ -311,31 +311,6 @@
     },
     {
       "parameters": {
-        "resource": "boardItem",
-        "operation": "changeMultipleColumnValues",
-        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
-        "itemId": "={{ $node['GET Target Item'].json.id }}",
-        "columnValues": "={{ $json.json_update_code }}"
-      },
-      "id": "81f6b2e6-66f3-45cc-ab32-cbe2a90e5d29",
-      "name": "Update Master Data",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2480,
-        500
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
         "content": "## Update New Master Item",
         "height": 241.88763788303442,
         "width": 494.13404860252047
@@ -354,7 +329,7 @@
         "resource": "boardItem",
         "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
         "groupId": "new_group75714",
-        "name": "={{ $node['GET Master Item1'].json.name }}",
+        "name": "={{ $node['GET Master Item'].json.name }}",
         "additionalFields": {}
       },
       "id": "f5c9526b-1b65-4ef9-b2ff-81bfaf52d157",
@@ -427,7 +402,7 @@
         "resource": "boardItem",
         "boardId": "4439036602",
         "groupId": "new_group26932",
-        "name": "={{\"Missing Master - \" + $node['GET Target Board Name'].json.name + \" - \" +  $node['GET Master Item1'].json.name }}",
+        "name": "={{\"Missing Master - \" + $node['GET Target Board Name'].json.name + \" - \" +  $node['GET Master Item'].json.name }}",
         "additionalFields": {}
       },
       "id": "a9ba071c-0f9f-491f-96e4-e2de55d8072a",
@@ -465,21 +440,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item1\"].json;\nconst targetBoardColumns = $node[\"GET Target Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData !== undefined && bData != null && bData.linkedPulseIds != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
-      },
-      "id": "aa7b762e-b020-45aa-8c31-ae4476a05332",
-      "name": "JSON Master Item Update",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        2260,
-        500
-      ]
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item1\"].json;\nconst targetBoardColumns = $node[\"GET New Master Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
+        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item\"].json;\nconst targetBoardColumns = $node[\"GET New Master Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
       },
       "id": "f1563e50-9c66-47fa-84b5-19312ac77ee9",
       "name": "JSON New Master Update",
@@ -493,7 +454,7 @@
     {
       "parameters": {
         "content": "## Changes\n**1.**  7 Jul 2023 ... JSON Master Item Update\n.... Added code to handle empty board relations \n\n         ``outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };``",
-        "height": 593.9255954621175,
+        "height": 139.95450467091018,
         "width": 646.6346775085249
       },
       "id": "2e2d743d-ae5f-48c7-b75d-66bdf33b57cf",
@@ -548,33 +509,7 @@
       "parameters": {
         "resource": "boardItem",
         "operation": "getByColumnValue",
-        "boardId": "3729016273",
-        "columnId": "name",
-        "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}",
-        "returnAll": true
-      },
-      "id": "38731b6f-d76c-4673-91f2-6577eecb4863",
-      "name": "GET Master Item1",
-      "type": "n8n-nodes-base.mondayCom",
-      "typeVersion": 1,
-      "position": [
-        2400,
-        200
-      ],
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "mondayComApi": {
-          "id": "1",
-          "name": "Monday.com - Clean Energy Direct"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "boardItem",
-        "operation": "getByColumnValue",
-        "boardId": "={{ $node['Set Board IDs'].json.masterBoard }}",
+        "boardId": "={{ $node['GET Target Board Name'].json.id }}",
         "columnId": "name",
         "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}",
         "returnAll": "=1"
@@ -597,6 +532,84 @@
         }
       },
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3729016273",
+        "columnId": "name",
+        "columnValue": "={{ $node.Webhook.json.body.event.pulseName }}",
+        "returnAll": true
+      },
+      "id": "38731b6f-d76c-4673-91f2-6577eecb4863",
+      "name": "GET Master Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        200
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const sourceBoardColumns = $node[\"GET Master Item\"].json;\nconst targetBoardColumns = $node[\"GET Target Item\"].json;\nconst sourceBoardName =  $node[\"GET Target Board Name\"].json.name;\nconst ignoreColumnFromSource = []; // Add columns to ignore\nconst masterBoardStageColumnID = \"dup__of_load_1drive4\";\nvar outuputJSON = {};\n\n// Logging\n//console.log(\"Mike ****************************\");\n//console.log(sourceBoardColumns);\n//console.log(targetBoardColumns);\n//console.log(sourceBoardName);\n\n// Add the Stage Column data\noutuputJSON[masterBoardStageColumnID] = sourceBoardName;\n\n// For all columns in the Master Board\n//\nsourceBoardColumns.column_values.forEach(function(data) {\n  // Get the targetColumnId\n  // Filter the target board columns to those who have the same title and data type, THEN return the target column ID\n  // Returns an array of target column ID's\n  var targetColumnId = targetBoardColumns.column_values.filter(obj => obj.title == data.title && obj.type == data.type).map(filteredObj => filteredObj.id);\n\n  // If Target Column Array exists, has an element and we are not ignoring this column\n  // THEN form the JSON depending on the data type\n  if (typeof targetColumnId !== 'undefined' && targetColumnId && targetColumnId.length > 0 && !ignoreColumnFromSource.includes(data.title)) {\n    //console.log(targetColumnId);\n    //console.log(data);\n    switch (data.type) {\n      case \"text\":\n        outuputJSON[targetColumnId] = data.text ? data.text : \"\";\n        break;\n\n      case \"numeric\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n            outuputJSON[targetColumnId] = data.value.replace(/[^0-9]/g, '');\n        }\n        break;\n\n      case \"date\":\n        outuputJSON[targetColumnId] = data.text ? {\n          \"date\": data.text\n          // \"time\": \"00:00:00\"\n        } : {};\n        break;\n\n      case \"board-relation\":\n        var bData = data.value;\n        if (bData !== undefined && bData !== null && bData.constructor == String) {\n          bData = JSON.parse(bData);\n        }\n        if (bData !== undefined && bData != null && bData.linkedPulseIds != null) {\n          var dependencyList = bData.linkedPulseIds.map(u => u.linkedPulseId);\n          outuputJSON[targetColumnId] = {\n            item_ids: dependencyList\n          };\n        } else {\n            outuputJSON[targetColumnId] = {\n            item_ids: undefined\n          };\n        }\n\n        break;\n        // Status Tye\n      case \"color\":\n        if (data.text) {\n          outuputJSON[targetColumnId] = {\n            label: data.text\n          };\n        }\n\n        break;\n        // Timeline Type\n      case \"timerange\":\n        if (data.value) {\n          var bData = data.value;\n          if (bData !== undefined && bData !== null && bData.constructor == String) {\n            bData = JSON.parse(bData);\n          }\n          if (bData != null) {\n            outuputJSON[targetColumnId] = {\n              to: bData.to,\n              from: bData.from\n            };\n          }\n        }\n        break;\n      default:\n    }\n  }\n});\n\nlet json_update_code = JSON.stringify(outuputJSON);\n\nreturn {\n  json_update_code\n};\n"
+      },
+      "id": "aa7b762e-b020-45aa-8c31-ae4476a05332",
+      "name": "JSON Target Item Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "={{ $node['GET Target Board Name'].json.id }}",
+        "itemId": "={{ $node['GET Target Item'].json.id }}",
+        "columnValues": "={{ $json.json_update_code }}"
+      },
+      "id": "81f6b2e6-66f3-45cc-ab32-cbe2a90e5d29",
+      "name": "Update Target Data",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        500
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## WHY IS STAGE IN THE JSON FOR B3"
+      },
+      "id": "c82a4e5b-348b-401f-8f46-073ed93ade90",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2660,
+        480
+      ]
     }
   ],
   "pinData": {},
@@ -615,6 +628,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2023-07-12T05:36:49.000Z",
-  "versionId": "70d2a0ce-bf3d-46c9-b52e-bdae29e683f5"
+  "updatedAt": "2023-07-27T07:03:13.000Z",
+  "versionId": "36b2d697-46e3-4f05-9297-5538e98abc45"
 }
