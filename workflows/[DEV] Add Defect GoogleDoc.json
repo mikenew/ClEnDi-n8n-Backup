@@ -1,0 +1,60 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-08-04T03:15:28.377Z",
+  "id": "42",
+  "name": "[DEV] Add Defect GoogleDoc",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "0c29cc26-126b-4f37-80d5-40b1addb5957",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "729ff7a9-848b-4077-a762-821116a66142",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        520
+      ],
+      "webhookId": "0c29cc26-126b-4f37-80d5-40b1addb5957"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "9e2cfa51-d086-4b97-80cc-fd7db3d55d6a",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        520
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-08-04T03:18:55.000Z",
+  "versionId": "6728c94f-f63c-4b38-9f16-bfb84e9ed23f"
+}
