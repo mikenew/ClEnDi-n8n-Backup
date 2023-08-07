@@ -1,0 +1,153 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Inventory Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Inventory Item": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-08-07T03:05:07.360Z",
+  "id": "43",
+  "name": "[DEV] Update Inventory Name",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ '{\"challenge\": \"'+$json[\"body\"][\"challenge\"]+'\"}' }}",
+        "options": {}
+      },
+      "id": "9080d558-aa41-41b6-9387-f880322db4cd",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5c1bbbdb-1bf4-4f61-b6b6-c0ee1747981e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "998e5916-c1c6-4087-80f0-7f4099a8d608",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        540
+      ],
+      "webhookId": "5c1bbbdb-1bf4-4f61-b6b6-c0ee1747981e"
+    },
+    {
+      "parameters": {
+        "jsCode": "var outputJSON = {};\nconst brand = $node['Get Inventory Item'].json.column_values[0].text;\nconst model = $node['Get Inventory Item'].json.column_values[1].text;\n\nconst newInventoryName = brand.substring(0,8) + \" - \" + model;\n\n// Set the name\noutputJSON[\"name\"] = newInventoryName;\n\nlet bookingJSON = JSON.stringify(outputJSON);\nreturn { bookingJSON };"
+      },
+      "id": "af321171-232c-4325-9a59-2172dfb951fd",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "3841025282",
+        "columnId": "name",
+        "columnValue": "={{ $json.body.event.pulseName }}"
+      },
+      "id": "1fce600f-632b-4234-a1ca-73f714767479",
+      "name": "Get Inventory Item",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        540
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeMultipleColumnValues",
+        "boardId": "3841025282",
+        "itemId": "={{ $node.Webhook.json.body.event.pulseId }}",
+        "columnValues": "={{ $json.bookingJSON }}"
+      },
+      "id": "52aa1a09-8ed6-4cff-ad3b-cbc0aaa6b86b",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        540
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "1",
+          "name": "Monday.com - Clean Energy Direct"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-06-15T02:56:27.929Z",
+      "updatedAt": "2023-06-15T02:56:27.929Z",
+      "id": "2",
+      "name": "DEV"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2023-08-07T03:23:26.000Z",
+  "versionId": "8ebb3c28-f4aa-412c-821d-205c95214509"
+}
