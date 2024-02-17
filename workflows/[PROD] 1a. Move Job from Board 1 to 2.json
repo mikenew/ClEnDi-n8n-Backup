@@ -141,6 +141,7 @@
   },
   "createdAt": "2023-01-21T04:54:29.501Z",
   "id": "2",
+  "meta": null,
   "name": "[PROD] 1a. Move Job from Board 1 to 2",
   "nodes": [
     {
