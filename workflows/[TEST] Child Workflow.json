@@ -15,6 +15,7 @@
   },
   "createdAt": "2023-02-27T07:38:32.313Z",
   "id": "18",
+  "meta": null,
   "name": "[TEST] Child Workflow",
   "nodes": [
     {
